@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+from typing import Literal
 
 from .errors import ConfigurationError, IntegrityError
 from .execution import execute
@@ -107,6 +108,7 @@ def reproduce_run(
         work = stage / "work"
         artifacts = stage / "artifacts"
         copy_tree_safe(seal_dir / "submission", work)
+        result_status: Literal["success", "candidate-failure", "infrastructure-error"]
         artifacts.mkdir()
         script = work / "reproduce.sh"
         if not script.is_file():

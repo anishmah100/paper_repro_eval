@@ -52,7 +52,8 @@ def author_init(repository: Repository, capsule_id: str) -> Path:
     }
     dump_yaml(root / "proposal.yaml", proposal)
     (root / "NOTES.md").write_text(
-        "# Authoring notes\n\nStart with proposal.yaml; approve scientific scope before scaffolding.\n",
+        "# Authoring notes\n\nStart with proposal.yaml; approve scientific scope "
+        "before scaffolding.\n",
         encoding="utf-8",
     )
     return root
@@ -147,7 +148,8 @@ def scaffold(repository: Repository, capsule_id: str, version: str, templates: l
         encoding="utf-8",
     )
     (pack / "private" / "REVIEW_GUIDE.md").write_text(
-        "# Capsule review guide\n\nTODO: scientific questions, likely failure modes, and evidence.\n",
+        "# Capsule review guide\n\nTODO: scientific questions, likely failure "
+        "modes, and evidence.\n",
         encoding="utf-8",
     )
     dump_yaml(

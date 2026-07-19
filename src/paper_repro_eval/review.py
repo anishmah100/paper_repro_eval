@@ -21,11 +21,13 @@ from .verification import latest_verification
 
 def _safe_markdown(value: str) -> str:
     rendered = MarkdownIt("commonmark").render(value)
-    return bleach.clean(
-        rendered,
-        tags=set(bleach.sanitizer.ALLOWED_TAGS)
-        | {"p", "h1", "h2", "h3", "pre", "code", "table", "thead", "tbody", "tr", "th", "td"},
-        attributes={"a": ["href", "title"]},
+    return str(
+        bleach.clean(
+            rendered,
+            tags=set(bleach.sanitizer.ALLOWED_TAGS)
+            | {"p", "h1", "h2", "h3", "pre", "code", "table", "thead", "tbody", "tr", "th", "td"},
+            attributes={"a": ["href", "title"]},
+        )
     )
 
 
@@ -39,7 +41,13 @@ def create_review_packet(repository: Repository, run_id: str) -> Path:
     if destination.exists():
         return destination
     with atomic_directory(destination) as stage:
-        shutil.copy2(seal_dir / "submission" / "REPORT.md", stage / "CANDIDATE_REPORT.md")
+        candidate_report = seal_dir / "submission" / "REPORT.md"
+        if candidate_report.is_file():
+            shutil.copy2(candidate_report, stage / "CANDIDATE_REPORT.md")
+        else:
+            (stage / "CANDIDATE_REPORT.md").write_text(
+                "# Missing candidate report\n", encoding="utf-8"
+            )
         shutil.copy2(capsule.private_dir / "REVIEW_GUIDE.md", stage / "CAPSULE_REVIEW_GUIDE.md")
         shutil.copy2(repository.root / "REVIEWING.md", stage / "REVIEWING.md")
         if (reproduction_dir / "artifacts").exists():
@@ -70,12 +78,12 @@ def create_review_packet(repository: Repository, run_id: str) -> Path:
                 "",
                 "## Human review prompts",
                 "",
-                "- Does the artifact demonstrate the paper's claim, not merely pass a superficial test?",
-                "- Are assumptions, deviations, limitations, and negative results candidly reported?",
+                "- Does the artifact demonstrate the claim rather than a superficial test?",
+                "- Are deviations, limitations, and negative results candidly reported?",
                 "- Do the code and evidence agree with the narrative?",
                 "- Is the result educational and independently inspectable?",
                 "",
-                "Record qualitative conclusions in NOTES.md. They are deliberately not auto-scored.",
+                "Record conclusions in NOTES.md. They are deliberately not auto-scored.",
                 "",
             ]
         )
@@ -101,12 +109,13 @@ def suite_report(repository: Repository, suite_id: str) -> Path:
     for run in list_runs(repository):
         if run.record.suite_id != suite_id:
             continue
+        status_text: str
         try:
             _, verification = latest_verification(repository, run.record.run_id)
-            status = verification.status
+            status_text = verification.status
             score = verification.objective_score
         except ConfigurationError:
-            status = run.record.state
+            status_text = str(run.record.state)
             score = None
         rows.append(
             {
@@ -115,7 +124,7 @@ def suite_report(repository: Repository, suite_id: str) -> Path:
                 "version": run.record.capsule_version,
                 "agent": run.record.agent,
                 "attempt": run.record.attempt,
-                "status": str(status),
+                "status": status_text,
                 "objective_score": score,
             }
         )
@@ -134,13 +143,13 @@ def suite_report(repository: Repository, suite_id: str) -> Path:
     ]
     for row in rows:
         md.append(
-            f"| {row['capsule']} | {row['agent']} | {row['status']} | "
-            f"{row['objective_score']} |"
+            f"| {row['capsule']} | {row['agent']} | {row['status']} | {row['objective_score']} |"
         )
     markdown = "\n".join(md) + "\n"
     (destination / "report.md").write_text(markdown, encoding="utf-8")
     (destination / "index.html").write_text(
-        "<!doctype html><meta charset='utf-8'><title>Suite report</title>" + _safe_markdown(markdown),
+        "<!doctype html><meta charset='utf-8'><title>Suite report</title>"
+        + _safe_markdown(markdown),
         encoding="utf-8",
     )
     return destination

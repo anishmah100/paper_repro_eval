@@ -1,0 +1,24 @@
+schema_version: 1
+checks:
+  - id: visible-artifact
+    title: Fresh visible reproduction artifact
+    kind: objective
+    weight: 0.25
+    depends_on: []
+  - id: hidden-exact
+    title: Exact agreement on hidden cases
+    kind: objective
+    weight: 0.5
+    depends_on:
+      - visible-artifact
+  - id: robustness-property
+    title: Recovers the line despite a high-leverage outlier
+    kind: objective
+    weight: 0.25
+    depends_on:
+      - hidden-exact
+  - id: educational-report
+    title: Required educational report is present
+    kind: diagnostic
+    weight: 0
+    depends_on: []

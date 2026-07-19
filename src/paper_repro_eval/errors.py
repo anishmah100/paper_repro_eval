@@ -19,4 +19,3 @@ class StateTransitionError(PaperReproEvalError):
 
 class EvaluationError(PaperReproEvalError):
     """Evaluation infrastructure failed independently of candidate behavior."""
-

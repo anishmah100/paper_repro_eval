@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+from typing import Literal
 
 from pydantic import ValidationError
 
@@ -36,26 +37,33 @@ def _load_inputs(private_dir: Path) -> tuple[CheckGraph, VerifierConfig]:
 
 
 def _block_dependencies(graph: CheckGraph, results: list[CheckResult]) -> list[CheckResult]:
-    by_id = {result.id: result for result in results}
-    final: list[CheckResult] = []
-    for check in graph.checks:
-        result = by_id[check.id]
+    raw = {result.id: result for result in results}
+    specs = {check.id: check for check in graph.checks}
+    resolved: dict[str, CheckResult] = {}
+
+    def resolve(check_id: str) -> CheckResult:
+        if check_id in resolved:
+            return resolved[check_id]
+        check = specs[check_id]
         blocking = [
             dependency
             for dependency in check.depends_on
-            if by_id[dependency].status
+            if resolve(dependency).status
             in {CheckStatus.FAILED, CheckStatus.BLOCKED, CheckStatus.ERROR}
         ]
         if blocking:
             result = CheckResult(
-                id=check.id,
+                id=check_id,
                 status=CheckStatus.BLOCKED,
                 score=0,
                 summary=f"Blocked by prerequisite checks: {', '.join(blocking)}",
             )
-            by_id[check.id] = result
-        final.append(result)
-    return final
+        else:
+            result = raw[check_id]
+        resolved[check_id] = result
+        return result
+
+    return [resolve(check.id) for check in graph.checks]
 
 
 def _score(graph: CheckGraph, results: list[CheckResult]) -> float | None:
@@ -115,7 +123,7 @@ def verify_run(repository: Repository, run_id: str) -> VerificationRecord:
         warnings: list[WarningRecord] = []
         checks: list[CheckResult] = []
         score: float | None = None
-        status = "evaluator-error"
+        status: Literal["success", "candidate-failure", "evaluator-error"] = "evaluator-error"
         error: str | None = None
         if process.infrastructure_error:
             error = process.infrastructure_error
@@ -145,9 +153,24 @@ def verify_run(repository: Repository, run_id: str) -> VerificationRecord:
                 checks = _block_dependencies(graph, output.checks)
                 warnings = output.warnings
                 score = _score(graph, checks)
-                status = "evaluator-error" if score is None else (
-                    "candidate-failure" if reproduction.status == "candidate-failure" else "success"
+                status = (
+                    "evaluator-error"
+                    if score is None
+                    else (
+                        "candidate-failure"
+                        if reproduction.status == "candidate-failure"
+                        else "success"
+                    )
                 )
+                if reproduction.status == "infrastructure-error":
+                    status = "evaluator-error"
+                    score = None
+                    warnings.append(
+                        WarningRecord(
+                            code="infrastructure-error",
+                            message="Reproduction infrastructure failed",
+                        )
+                    )
             except (ValidationError, ConfigurationError, IntegrityError) as exc:
                 error = str(exc)
         if error:

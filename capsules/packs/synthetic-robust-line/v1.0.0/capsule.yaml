@@ -1,0 +1,35 @@
+schema_version: 1
+id: synthetic-robust-line
+version: "1.0.0"
+status: audited
+paper:
+  id: synthetic-robust-line
+  title: Synthetic Theil-Sen Robust Line Capsule
+  authors:
+    - paper_repro_eval maintainers
+  published: "2026"
+  source_url: null
+  local_files:
+    - paper/SYNTHETIC.md
+capsule:
+  title: Reproduce a robust median-slope estimator
+  summary: Implement a precisely specified robust estimator and demonstrate it on fresh data.
+  domains:
+    - robust-statistics
+    - algorithms
+  research_types:
+    - algorithmic-property
+    - software-conformance
+  verification_forms:
+    - formal/deterministic
+    - properties/invariants
+    - end-to-end artifact
+  fidelity:
+    level: full-fidelity
+    rationale: The complete finite-sample algorithm is reproduced exactly.
+    limitations:
+      - This is a synthetic harness-validation capsule, not a claim from a real paper.
+submission:
+  reproduce: submission/reproduce.sh
+  report: submission/REPORT.md
+  demo: submission/demo.sh

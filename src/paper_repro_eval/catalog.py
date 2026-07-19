@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from pathlib import Path
+from typing import TypeVar
 
 from pydantic import BaseModel, ValidationError
 
@@ -11,6 +12,8 @@ from .errors import ConfigurationError, IntegrityError
 from .models import CapsuleManifest, CapsuleRef, CapsuleRegistry, RegistryEntry, SuiteManifest
 from .repository import Repository
 from .util import load_yaml, tree_digest
+
+ModelT = TypeVar("ModelT", bound=BaseModel)
 
 
 @dataclass(frozen=True)
@@ -29,7 +32,7 @@ class ResolvedCapsule:
         return self.pack_dir / "private"
 
 
-def _validate[T: BaseModel](model_type: type[T], path: Path) -> T:
+def _validate(model_type: type[ModelT], path: Path) -> ModelT:
     try:
         return model_type.model_validate(load_yaml(path))
     except ValidationError as exc:
@@ -75,7 +78,11 @@ def resolve_capsule(
     pack_dir = repository.capsules_dir / entry.path
     manifest_path = pack_dir / "capsule.yaml"
     manifest = _validate(CapsuleManifest, manifest_path)
-    if manifest.id != entry.id or manifest.version != entry.version or manifest.status != entry.status:
+    if (
+        manifest.id != entry.id
+        or manifest.version != entry.version
+        or manifest.status != entry.status
+    ):
         raise IntegrityError(
             f"Registry and capsule manifest disagree for {entry.id}@{entry.version}"
         )
@@ -89,7 +96,9 @@ def resolve_capsule(
     return ResolvedCapsule(entry=entry, manifest=manifest, pack_dir=pack_dir, digest=digest)
 
 
-def resolve_suite(repository: Repository, suite_id: str) -> tuple[SuiteManifest, list[ResolvedCapsule]]:
+def resolve_suite(
+    repository: Repository, suite_id: str
+) -> tuple[SuiteManifest, list[ResolvedCapsule]]:
     suite = load_suite(repository, suite_id)
     capsules: list[ResolvedCapsule] = []
     for reference in suite.capsules:
@@ -110,4 +119,3 @@ def validate_registry(repository: Repository) -> list[ResolvedCapsule]:
 
 def pin_capsule(reference: CapsuleRef, resolved: ResolvedCapsule) -> CapsuleRef:
     return reference.model_copy(update={"digest": resolved.digest})
-

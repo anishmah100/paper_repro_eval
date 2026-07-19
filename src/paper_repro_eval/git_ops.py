@@ -37,7 +37,12 @@ def _run_git(
 def global_identity(cwd: Path) -> GitIdentity:
     name = _run_git(["config", "--global", "--get", "user.name"], cwd, check=False)
     email = _run_git(["config", "--global", "--get", "user.email"], cwd, check=False)
-    if name.returncode != 0 or email.returncode != 0 or not name.stdout.strip() or not email.stdout.strip():
+    if (
+        name.returncode != 0
+        or email.returncode != 0
+        or not name.stdout.strip()
+        or not email.stdout.strip()
+    ):
         raise ConfigurationError(
             "Git global user.name and user.email are required. The framework never sets a local "
             "identity or substitutes an AI identity."
@@ -55,7 +60,10 @@ def initialize_workspace(repository: Path) -> str:
         raise ConfigurationError("Workspace unexpectedly contains a local Git identity")
     _run_git(["add", "."], repository)
     _run_git(["commit", "--quiet", "-m", "Initial capsule workspace"], repository)
-    return head(repository)
+    commit_head = head(repository)
+    if commit_head is None:
+        raise EvaluationError("Initial workspace commit did not produce a Git HEAD")
+    return commit_head
 
 
 def head(repository: Path) -> str | None:
@@ -70,4 +78,3 @@ def diff(repository: Path) -> str:
     if untracked.stdout.strip():
         pieces.append("\n# Untracked files\n" + untracked.stdout)
     return "".join(pieces)
-

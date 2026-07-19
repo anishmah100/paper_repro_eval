@@ -73,4 +73,3 @@ def discover_repository(start: Path | None = None) -> Repository:
 
 def _is_repository(path: Path) -> bool:
     return (path / "pyproject.toml").is_file() and (path / "capsules" / "registry.yaml").is_file()
-

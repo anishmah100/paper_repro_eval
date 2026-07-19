@@ -68,7 +68,7 @@ class CapsuleRegistry(StrictModel):
     capsules: list[RegistryEntry] = Field(default_factory=list)
 
     @model_validator(mode="after")
-    def unique_entries(self) -> "CapsuleRegistry":
+    def unique_entries(self) -> CapsuleRegistry:
         keys = [(entry.id, entry.version) for entry in self.capsules]
         if len(keys) != len(set(keys)):
             raise ValueError("Capsule registry contains duplicate id/version entries")
@@ -96,7 +96,7 @@ class Fidelity(StrictModel):
     limitations: list[str] = Field(default_factory=list)
 
     @model_validator(mode="after")
-    def proxy_requires_transfer_argument(self) -> "Fidelity":
+    def proxy_requires_transfer_argument(self) -> Fidelity:
         if self.level is FidelityLevel.PROXY and not self.transfer_argument:
             raise ValueError("Proxy capsules require a transfer_argument")
         return self
@@ -146,7 +146,7 @@ class SuiteManifest(StrictModel):
     capsules: list[CapsuleRef]
 
     @model_validator(mode="after")
-    def unique_capsules(self) -> "SuiteManifest":
+    def unique_capsules(self) -> SuiteManifest:
         keys = [(capsule.id, capsule.version) for capsule in self.capsules]
         if len(keys) != len(set(keys)):
             raise ValueError("Suite contains duplicate capsule references")
@@ -166,7 +166,7 @@ class CheckGraph(StrictModel):
     checks: list[CheckSpec]
 
     @model_validator(mode="after")
-    def valid_graph(self) -> "CheckGraph":
+    def valid_graph(self) -> CheckGraph:
         ids = [check.id for check in self.checks]
         if len(ids) != len(set(ids)):
             raise ValueError("Check graph contains duplicate IDs")
@@ -210,7 +210,7 @@ class CheckResult(StrictModel):
         return [_relative_safe_path(value) for value in values]
 
     @model_validator(mode="after")
-    def status_matches_score(self) -> "CheckResult":
+    def status_matches_score(self) -> CheckResult:
         if self.status is CheckStatus.ERROR:
             if self.score is not None:
                 raise ValueError("Errored checks must not have a score")
@@ -220,9 +220,8 @@ class CheckResult(StrictModel):
             raise ValueError("Passed checks require score 1")
         if self.status in {CheckStatus.FAILED, CheckStatus.BLOCKED} and self.score != 0:
             raise ValueError("Failed or blocked checks require score 0")
-        if self.status is CheckStatus.PARTIAL and self.score is not None:
-            if not 0 < self.score < 1:
-                raise ValueError("Partial checks require a score strictly between 0 and 1")
+        if self.status is CheckStatus.PARTIAL and self.score is not None and not 0 < self.score < 1:
+            raise ValueError("Partial checks require a score strictly between 0 and 1")
         return self
 
 
@@ -303,4 +302,3 @@ class VerificationRecord(StrictModel):
     objective_score: float | None = Field(default=None, ge=0, le=1)
     checks: list[CheckResult] = Field(default_factory=list)
     warnings: list[WarningRecord] = Field(default_factory=list)
-

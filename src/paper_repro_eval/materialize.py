@@ -101,4 +101,3 @@ def prepare_suite(
     if mismatches:
         raise IntegrityError(f"Prepared workspaces are not identical: {mismatches}")
     return records
-

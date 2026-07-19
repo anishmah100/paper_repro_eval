@@ -21,10 +21,17 @@ The framework separates:
 - human-oriented evidence and review packets;
 - curated long-term learning artifacts.
 
-## Development status
+## Quick start
 
-The core framework is under active construction. The approved architecture and
-workflow are documented in [`docs/architecture.md`](docs/architecture.md).
+```bash
+uv sync --extra dev
+uv run paper_repro_eval suites validate synthetic-smoke
+uv run paper_repro_eval prepare synthetic-smoke -a model-a -a model-b
+```
+
+See [workflow](docs/WORKFLOW.md), [architecture](docs/ARCHITECTURE.md), and
+[CLI reference](docs/CLI.md). The included synthetic suite validates the harness before real paper
+capsules are onboarded.
 
 ## Development setup
 

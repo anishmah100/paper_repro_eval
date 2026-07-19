@@ -25,11 +25,13 @@ dev = [
   "mypy>=1.14",
   "pytest>=8.3",
   "pytest-cov>=6.0",
+  "types-bleach>=6.2",
+  "types-pyyaml>=6.0",
   "ruff>=0.9",
 ]
 
 [project.scripts]
-paper_repro_eval = "paper_repro_eval.cli:app"
+paper_repro_eval = "paper_repro_eval.cli:main"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/paper_repro_eval"]

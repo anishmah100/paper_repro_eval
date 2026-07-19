@@ -58,4 +58,3 @@ def find_run(repository: Repository, run_id: str) -> StoredRun:
     if len(matches) > 1:
         raise ConfigurationError(f"Duplicate run ID detected: {run_id}")
     return matches[0]
-

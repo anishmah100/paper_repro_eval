@@ -2,9 +2,7 @@
 
 from __future__ import annotations
 
-import os
 import subprocess
-from pathlib import Path
 from typing import Annotated
 
 import typer
@@ -23,9 +21,11 @@ from .catalog import load_registry, load_suite, resolve_capsule, validate_regist
 from .errors import PaperReproEvalError
 from .lifecycle import reproduce_run, seal_run
 from .materialize import prepare_suite
-from .repository import discover_repository
-from .review import create_review_packet, curate as curate_run, suite_report
+from .repository import Repository, discover_repository
+from .review import create_review_packet, suite_report
+from .review import curate as curate_run
 from .run_store import find_run, list_runs
+from .sandbox import container_command
 from .verification import verify_run
 
 app = typer.Typer(no_args_is_help=True, pretty_exceptions_enable=False)
@@ -40,7 +40,7 @@ app.add_typer(author_app, name="author")
 console = Console()
 
 
-def _repo():
+def _repo() -> Repository:
     return discover_repository()
 
 
@@ -67,7 +67,10 @@ def capsules_validate(capsule_id: str | None = None, version: str | None = None)
         else validate_registry(_repo())
     )
     for capsule in resolved:
-        console.print(f"[green]valid[/green] {capsule.manifest.id}@{capsule.manifest.version} {capsule.digest}")
+        console.print(
+            f"[green]valid[/green] {capsule.manifest.id}@"
+            f"{capsule.manifest.version} {capsule.digest}"
+        )
 
 
 @suites_app.command("list")
@@ -115,13 +118,20 @@ def run_path(run_id: str) -> None:
 @app.command()
 def enter(
     run_id: str,
+    image: Annotated[
+        str, typer.Option(help="Image for container-isolated runs")
+    ] = "python:3.12-slim",
     shell: Annotated[str, typer.Option(help="Interactive shell executable")] = "zsh",
 ) -> None:
-    workspace = find_run(_repo(), run_id).workspace
+    run = find_run(_repo(), run_id)
+    workspace = run.workspace
     console.print(
         "[yellow]Isolation rule:[/yellow] do not inspect any other candidate workspace or output."
     )
-    subprocess.run([shell], cwd=workspace, check=False)
+    if run.record.isolation == "container":
+        subprocess.run(container_command(workspace, image, shell), check=False)
+    else:
+        subprocess.run([shell], cwd=workspace, check=False)
 
 
 @app.command()

@@ -1,3 +1,7 @@
 schema_version: 1
-capsules: []
+capsules:
+  - id: synthetic-robust-line
+    version: "1.0.0"
+    status: audited
+    path: packs/synthetic-robust-line/v1.0.0
 

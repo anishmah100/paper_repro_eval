@@ -34,7 +34,9 @@ def scored_result(
     )
 
 
-def exact(check_id: str, actual: Any, expected: Any, summary: str = "Exact comparison") -> CheckResult:
+def exact(
+    check_id: str, actual: Any, expected: Any, summary: str = "Exact comparison"
+) -> CheckResult:
     return scored_result(
         check_id,
         float(actual == expected),

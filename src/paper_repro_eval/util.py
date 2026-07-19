@@ -144,4 +144,3 @@ def make_read_only(root: Path) -> None:
         if path.is_file():
             path.chmod(path.stat().st_mode & ~0o222)
     root.chmod(root.stat().st_mode & ~0o222)
-

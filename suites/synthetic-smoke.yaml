@@ -1,0 +1,7 @@
+schema_version: 1
+id: synthetic-smoke
+title: Synthetic end-to-end smoke suite
+description: Exercises algorithm, hidden cases, artifact reproduction, and human review.
+capsules:
+  - id: synthetic-robust-line
+    version: "1.0.0"
