@@ -1,0 +1,22 @@
+schema_version: 1
+id: stable-fluids
+metadata:
+  id: stable-fluids
+  title: "Stable Fluids"
+  authors:
+    - "Jos Stam"
+  published: "1999"
+  source_url: https://www.josstam.com/publications
+  local_files:
+    - paper/SOURCE.md
+summary: >-
+  Source paper and benchmark interpretation for the Inverse Smoke-Control Research Challenge arena.
+domains:
+  - "fluid dynamics"
+  - "computer graphics"
+  - "optimal control"
+capsules:
+  - id: inverse-smoke-control
+    version: 1.0.0
+    status: draft
+    path: capsules/inverse-smoke-control/v1.0.0

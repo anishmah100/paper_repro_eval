@@ -1,0 +1,24 @@
+schema_version: 1
+id: topology-optimization
+metadata:
+  id: topology-optimization
+  title: "A New Generation 99 Line Matlab Code for Compliance Topology Optimization and its Extension to 3D"
+  authors:
+    - "Federico Ferrari"
+    - "Ole Sigmund"
+  published: "2020"
+  source_url: https://arxiv.org/abs/2005.05436
+  local_files:
+    - paper/SOURCE.md
+summary: >-
+  Source paper and benchmark interpretation for the Robust Topology-Optimization Challenge arena.
+domains:
+  - "applied mathematics"
+  - "finite elements"
+  - "optimization"
+  - "mechanical design"
+capsules:
+  - id: robust-structure-design
+    version: 1.0.0
+    status: draft
+    path: capsules/robust-structure-design/v1.0.0

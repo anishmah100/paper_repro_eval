@@ -45,3 +45,16 @@ uv run pytest
 
 The installed console command is always `paper_repro_eval`.
 
+
+## Visual Research Arcade
+
+The draft first-round catalog contains ten competitive, visually verifiable research arenas across
+graphics, control, simulation, games, applied mathematics, and ML. Start with the
+[arena index](docs/VISUAL_ARENAS.md) and [competition contract](docs/COMPETITIONS.md).
+
+```bash
+uv run paper_repro_eval suites validate visual-research-arcade-v0
+uv run paper_repro_eval prepare visual-research-arcade-v0 -a model-a -a model-b
+```
+
+These capsules are task-development pilots until their manifests are promoted from `draft`.

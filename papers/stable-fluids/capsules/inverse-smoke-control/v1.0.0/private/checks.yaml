@@ -1,0 +1,36 @@
+schema_version: 1
+checks:
+  - id: control-format
+    title: "Produces a valid bounded control sequence"
+    kind: objective
+    weight: 0.1
+    depends_on: []
+  - id: visible-targets
+    title: "Controls smoke on visible targets"
+    kind: objective
+    weight: 0.2
+    depends_on:
+      - control-format
+  - id: hidden-target-match
+    title: "Matches hidden target silhouettes"
+    kind: objective
+    weight: 0.4
+    depends_on:
+      - control-format
+  - id: perturbation-robustness
+    title: "Retains quality under hidden fluid changes"
+    kind: objective
+    weight: 0.2
+    depends_on:
+      - control-format
+  - id: control-efficiency
+    title: "Uses low energy and evaluation budget"
+    kind: objective
+    weight: 0.1
+    depends_on:
+      - control-format
+  - id: review-artifacts
+    title: Human-review evidence is complete
+    kind: diagnostic
+    weight: 0
+    depends_on: []

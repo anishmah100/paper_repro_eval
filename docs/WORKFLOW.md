@@ -26,3 +26,15 @@ own conclusions in NOTES.md. curate RUN_ID copies the packet into the long-term 
 
 Runs and lifecycle revisions are append-only. Preparing again creates a new attempt. Sealing an
 unchanged submission is idempotent; a changed one creates another immutable revision.
+
+## Competitive suites
+
+Competitive capsule manifests declare qualification checks, a primary metric, tie tolerance,
+tiebreakers, and winner semantics. `paper_repro_eval report SUITE` writes both the complete audit
+table and `LEADERBOARD.md`. The leaderboard uses the latest attempt for each agent and ranks only
+runs that passed every declared qualification check.
+
+Draft suites may be materialized for development and pilot calibration, but their scores are not
+benchmark claims. Before promotion, finish the private build plan, passing reference, mutants,
+hidden cases, repeatability study, and human packet review described in
+[the competition contract](COMPETITIONS.md).

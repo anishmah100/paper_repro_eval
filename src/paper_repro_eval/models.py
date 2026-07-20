@@ -47,6 +47,16 @@ class CheckStatus(StrEnum):
     ERROR = "error"
 
 
+class CompetitionMode(StrEnum):
+    INDEPENDENT_SCORE = "independent-score"
+    HEAD_TO_HEAD = "head-to-head"
+
+
+class MetricDirection(StrEnum):
+    HIGHER = "higher-is-better"
+    LOWER = "lower-is-better"
+
+
 def _relative_safe_path(value: str) -> str:
     path = PurePosixPath(value)
     if path.is_absolute() or ".." in path.parts:
@@ -147,6 +157,23 @@ class SubmissionContract(StrictModel):
         return _relative_safe_path(value) if value is not None else None
 
 
+class RankingMetric(StrictModel):
+    id: str
+    title: str
+    direction: MetricDirection
+    unit: str = "normalized score"
+    description: str = ""
+
+
+class CompetitionContract(StrictModel):
+    mode: CompetitionMode = CompetitionMode.INDEPENDENT_SCORE
+    primary_metric: RankingMetric
+    tiebreakers: list[RankingMetric] = Field(default_factory=list)
+    qualification_checks: list[str] = Field(default_factory=list)
+    tie_tolerance: float = Field(default=1e-6, ge=0)
+    winner_rule: str
+
+
 class CapsuleManifest(StrictModel):
     schema_version: Literal[1] = 1
     id: str
@@ -155,6 +182,7 @@ class CapsuleManifest(StrictModel):
     paper_id: str
     capsule: CapsuleDetails
     submission: SubmissionContract = Field(default_factory=SubmissionContract)
+    competition: CompetitionContract | None = None
 
 
 class CapsuleRef(StrictModel):

@@ -1,0 +1,28 @@
+schema_version: 1
+id: mls-mpm
+metadata:
+  id: mls-mpm
+  title: "A Moving Least Squares Material Point Method with Displacement Discontinuity and Two-Way Rigid Body Coupling"
+  authors:
+    - "Yuanming Hu"
+    - "Yu Fang"
+    - "Ziheng Ge"
+    - "Ziyin Qu"
+    - "Yixin Zhu"
+    - "Andre Pradhana"
+    - "Chenfanfu Jiang"
+  published: "2018"
+  source_url: https://yuanming.taichi.graphics/publication/2018-mlsmpm/
+  local_files:
+    - paper/SOURCE.md
+summary: >-
+  Source paper and benchmark interpretation for the Competitive Multi-Material MLS-MPM Simulator arena.
+domains:
+  - "computer graphics"
+  - "continuum mechanics"
+  - "simulation"
+capsules:
+  - id: multimaterial-simulator
+    version: 1.0.0
+    status: draft
+    path: capsules/multimaterial-simulator/v1.0.0

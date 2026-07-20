@@ -1,0 +1,26 @@
+schema_version: 1
+id: evolutionary-soft-robots
+metadata:
+  id: evolutionary-soft-robots
+  title: "Evolving Soft Locomotion in Aquatic and Terrestrial Environments"
+  authors:
+    - "Francesco Corucci"
+    - "Nick Cheney"
+    - "Francesco Giorgio-Serchi"
+    - "Josh Bongard"
+    - "Cecilia Laschi"
+  published: "2017"
+  source_url: https://arxiv.org/abs/1711.06605
+  local_files:
+    - paper/SOURCE.md
+summary: >-
+  Source paper and benchmark interpretation for the Soft-Robot Morphology and Control Co-Design arena.
+domains:
+  - "robotics"
+  - "evolutionary computation"
+  - "embodied intelligence"
+capsules:
+  - id: morphology-control-codesign
+    version: 1.0.0
+    status: draft
+    path: capsules/morphology-control-codesign/v1.0.0

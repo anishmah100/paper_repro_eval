@@ -1,0 +1,38 @@
+schema_version: 1
+id: visual-research-arcade-v0
+title: Visual Research Arcade — design and calibration suite
+description: >-
+  Draft first-round suite of competitive, visually verifiable research tasks. It is safe to
+  materialize for task-development pilots, but results are not benchmark claims until each capsule
+  is promoted to benchmark-ready after reference and mutant calibration.
+capsules:
+  - paper_id: poisson-image-editing
+    capsule_id: competitive-editing
+    version: 1.0.0
+  - paper_id: dm-control-suite
+    capsule_id: multipole-control
+    version: 1.0.0
+  - paper_id: multiple-importance-sampling
+    capsule_id: progressive-path-tracer
+    version: 1.0.0
+  - paper_id: mls-mpm
+    capsule_id: multimaterial-simulator
+    version: 1.0.0
+  - paper_id: differentiable-world-model-mpc
+    capsule_id: visual-offline-control
+    version: 1.0.0
+  - paper_id: topology-optimization
+    capsule_id: robust-structure-design
+    version: 1.0.0
+  - paper_id: lightcycle-agents
+    capsule_id: adversarial-tournament
+    version: 1.0.0
+  - paper_id: stable-fluids
+    capsule_id: inverse-smoke-control
+    version: 1.0.0
+  - paper_id: evolutionary-soft-robots
+    capsule_id: morphology-control-codesign
+    version: 1.0.0
+  - paper_id: inverse-rendering
+    capsule_id: procedural-scene-recovery
+    version: 1.0.0

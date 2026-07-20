@@ -1,0 +1,55 @@
+schema_version: 1
+id: procedural-scene-recovery
+version: 1.0.0
+status: draft
+paper_id: inverse-rendering
+capsule:
+  title: "Procedural Inverse-Rendering Challenge"
+  summary: >-
+    A visually inspectable reproduction plus an open competitive extension with hidden cases.
+  domains:
+    - "computer graphics"
+    - "computer vision"
+    - "inverse problems"
+  research_types:
+    - "proxy-reproduction"
+    - "visual-graphics"
+    - "comparative-method"
+    - "small-training"
+  verification_forms:
+    - "numerical agreement"
+    - "end-to-end artifact"
+    - "visual/interactive"
+    - "competitive score"
+  fidelity:
+    level: proxy
+    rationale: >-
+      Compact procedural scenes test differentiable or search-based recovery of geometry, materials, lighting, and cameras.
+    transfer_argument: >-
+      Compact procedural scenes test differentiable or search-based recovery of geometry, materials, lighting, and cameras.
+    limitations:
+      - The compact local arena does not reproduce the source paper's largest experiments.
+      - Difficulty and score weights require pilot calibration before promotion.
+submission:
+  reproduce: submission/reproduce.sh
+  report: submission/REPORT.md
+  demo: submission/demo.sh
+competition:
+  mode: independent-score
+  primary_metric:
+    id: objective_score
+    title: "Held-out-view reconstruction quality"
+    direction: higher-is-better
+    unit: "normalized image quality"
+    description: Weighted normalized score produced from trusted hidden evaluation.
+  tiebreakers:
+    - id: declared_tiebreakers
+      title: "Lower scene complexity, then faster recovery."
+      direction: higher-is-better
+      unit: task-specific raw metrics
+      description: Applied in the order documented by the private verifier.
+  qualification_checks:
+    - scene-validity
+  tie_tolerance: 0.001
+  winner_rule: >-
+    Highest qualifying held-out-view quality across hidden scenes wins.

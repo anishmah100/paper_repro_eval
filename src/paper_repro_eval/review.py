@@ -10,9 +10,10 @@ import bleach
 from markdown_it import MarkdownIt
 
 from .catalog import resolve_capsule
+from .competition import build_leaderboards, render_leaderboards
 from .errors import ConfigurationError, IntegrityError
 from .lifecycle import latest_reproduction, latest_seal, update_state
-from .models import RunState
+from .models import CheckStatus, RunState
 from .repository import Repository
 from .run_store import find_run, list_runs
 from .util import atomic_directory, copy_tree_safe, dump_json
@@ -112,10 +113,27 @@ def suite_report(repository: Repository, suite_id: str) -> Path:
         if run.record.suite_id != suite_id:
             continue
         status_text: str
+        qualified = False
         try:
             _, verification = latest_verification(repository, run.record.run_id)
             status_text = verification.status
             score = verification.objective_score
+            capsule = resolve_capsule(
+                repository,
+                run.record.paper_id,
+                run.record.capsule_id,
+                run.record.capsule_version,
+            )
+            required = (
+                set(capsule.manifest.competition.qualification_checks)
+                if capsule.manifest.competition is not None
+                else set()
+            )
+            result_by_id = {check.id: check for check in verification.checks}
+            qualified = all(
+                check_id in result_by_id and result_by_id[check_id].status is CheckStatus.PASSED
+                for check_id in required
+            )
         except ConfigurationError:
             status_text = str(run.record.state)
             score = None
@@ -129,11 +147,16 @@ def suite_report(repository: Repository, suite_id: str) -> Path:
                 "attempt": run.record.attempt,
                 "status": status_text,
                 "objective_score": score,
+                "qualified": qualified,
             }
         )
     destination = repository.reports_dir / suite_id
     destination.mkdir(parents=True, exist_ok=True)
-    dump_json(destination / "report.json", {"schema_version": 1, "suite": suite_id, "runs": rows})
+    leaderboards = build_leaderboards(repository, rows)
+    dump_json(
+        destination / "report.json",
+        {"schema_version": 1, "suite": suite_id, "runs": rows, "leaderboards": leaderboards},
+    )
     with (destination / "report.csv").open("w", newline="", encoding="utf-8") as handle:
         writer = csv.DictWriter(handle, fieldnames=list(rows[0]) if rows else ["run_id"])
         writer.writeheader()
@@ -155,6 +178,9 @@ def suite_report(repository: Repository, suite_id: str) -> Path:
         "<!doctype html><meta charset='utf-8'><title>Suite report</title>"
         + _safe_markdown(markdown),
         encoding="utf-8",
+    )
+    (destination / "LEADERBOARD.md").write_text(
+        render_leaderboards(suite_id, leaderboards), encoding="utf-8"
     )
     return destination
 

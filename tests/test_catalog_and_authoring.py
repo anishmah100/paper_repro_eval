@@ -30,7 +30,8 @@ def test_synthetic_registry_and_suite_are_valid(repository: Repository) -> None:
     assert suite.id == "synthetic-smoke"
     assert [item.paper.manifest.id for item in resolved] == ["synthetic-robust-estimation"]
     assert [item.manifest.id for item in resolved] == ["robust-line"]
-    assert capsules[0].digest == resolved[0].digest
+    synthetic = next(capsule for capsule in capsules if capsule.manifest.id == "robust-line")
+    assert synthetic.digest == resolved[0].digest
 
 
 def test_authoring_requires_scope_approval(repository: Repository) -> None:

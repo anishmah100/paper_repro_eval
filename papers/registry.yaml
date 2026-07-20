@@ -1,4 +1,24 @@
 schema_version: 1
 papers:
+  - id: differentiable-world-model-mpc
+    path: differentiable-world-model-mpc
+  - id: dm-control-suite
+    path: dm-control-suite
+  - id: evolutionary-soft-robots
+    path: evolutionary-soft-robots
+  - id: inverse-rendering
+    path: inverse-rendering
+  - id: lightcycle-agents
+    path: lightcycle-agents
+  - id: mls-mpm
+    path: mls-mpm
+  - id: multiple-importance-sampling
+    path: multiple-importance-sampling
+  - id: poisson-image-editing
+    path: poisson-image-editing
+  - id: stable-fluids
+    path: stable-fluids
   - id: synthetic-robust-estimation
     path: synthetic-robust-estimation
+  - id: topology-optimization
+    path: topology-optimization

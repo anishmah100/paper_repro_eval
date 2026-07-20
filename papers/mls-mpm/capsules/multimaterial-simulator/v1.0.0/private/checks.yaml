@@ -1,0 +1,36 @@
+schema_version: 1
+checks:
+  - id: simulation-validity
+    title: "Runs stably and emits replay state"
+    kind: objective
+    weight: 0.1
+    depends_on: []
+  - id: transfer-and-invariants
+    title: "Implements consistent transfers and core invariants"
+    kind: objective
+    weight: 0.25
+    depends_on:
+      - simulation-validity
+  - id: hidden-scene-fidelity
+    title: "Matches trusted trajectories on hidden scenes"
+    kind: objective
+    weight: 0.4
+    depends_on:
+      - transfer-and-invariants
+  - id: material-frontier
+    title: "Supports progressively harder constitutive behavior"
+    kind: objective
+    weight: 0.15
+    depends_on:
+      - transfer-and-invariants
+  - id: throughput
+    title: "Advances particles efficiently"
+    kind: objective
+    weight: 0.1
+    depends_on:
+      - simulation-validity
+  - id: review-artifacts
+    title: Human-review evidence is complete
+    kind: diagnostic
+    weight: 0
+    depends_on: []

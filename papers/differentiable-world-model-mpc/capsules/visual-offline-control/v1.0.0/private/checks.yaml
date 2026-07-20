@@ -1,0 +1,36 @@
+schema_version: 1
+checks:
+  - id: controller-validity
+    title: "Sealed controller executes and respects bounds"
+    kind: objective
+    weight: 0.1
+    depends_on: []
+  - id: nominal-control
+    title: "Improves the supplied offline baseline"
+    kind: objective
+    weight: 0.25
+    depends_on:
+      - controller-validity
+  - id: hidden-realized-return
+    title: "Controls hidden true dynamics successfully"
+    kind: objective
+    weight: 0.4
+    depends_on:
+      - controller-validity
+  - id: shift-robustness
+    title: "Handles model mismatch and disturbances"
+    kind: objective
+    weight: 0.2
+    depends_on:
+      - controller-validity
+  - id: model-calibration
+    title: "Distinguishes imagined and realized improvement"
+    kind: objective
+    weight: 0.05
+    depends_on:
+      - controller-validity
+  - id: review-artifacts
+    title: Human-review evidence is complete
+    kind: diagnostic
+    weight: 0
+    depends_on: []

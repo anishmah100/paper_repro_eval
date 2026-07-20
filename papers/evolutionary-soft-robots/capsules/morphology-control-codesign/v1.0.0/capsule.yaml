@@ -1,0 +1,55 @@
+schema_version: 1
+id: morphology-control-codesign
+version: 1.0.0
+status: draft
+paper_id: evolutionary-soft-robots
+capsule:
+  title: "Soft-Robot Morphology and Control Co-Design"
+  summary: >-
+    A visually inspectable reproduction plus an open competitive extension with hidden cases.
+  domains:
+    - "robotics"
+    - "evolutionary computation"
+    - "embodied intelligence"
+  research_types:
+    - "proxy-reproduction"
+    - "small-training"
+    - "simulation-physics"
+    - "comparative-method"
+  verification_forms:
+    - "comparative advantage"
+    - "statistical agreement"
+    - "visual/interactive"
+    - "competitive score"
+  fidelity:
+    level: proxy
+    rationale: >-
+      A compact two-dimensional voxel simulator preserves coupled morphology/controller optimization and terrain interaction.
+    transfer_argument: >-
+      A compact two-dimensional voxel simulator preserves coupled morphology/controller optimization and terrain interaction.
+    limitations:
+      - The compact local arena does not reproduce the source paper's largest experiments.
+      - Difficulty and score weights require pilot calibration before promotion.
+submission:
+  reproduce: submission/reproduce.sh
+  report: submission/REPORT.md
+  demo: submission/demo.sh
+competition:
+  mode: independent-score
+  primary_metric:
+    id: objective_score
+    title: "Robust locomotion score"
+    direction: higher-is-better
+    unit: "normalized distance-energy score"
+    description: Weighted normalized score produced from trusted hidden evaluation.
+  tiebreakers:
+    - id: declared_tiebreakers
+      title: "Higher unseen-terrain distance, then lower energy."
+      direction: higher-is-better
+      unit: task-specific raw metrics
+      description: Applied in the order documented by the private verifier.
+  qualification_checks:
+    - design-validity
+  tie_tolerance: 0.001
+  winner_rule: >-
+    Highest qualifying robust locomotion score across hidden terrains wins.

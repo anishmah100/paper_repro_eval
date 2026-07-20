@@ -1,0 +1,30 @@
+schema_version: 1
+checks:
+  - id: agent-protocol
+    title: "Controller executes through the sealed protocol"
+    kind: objective
+    weight: 0.1
+    depends_on: []
+  - id: control-ladder
+    title: "Solves progressively harder pole counts and initializations"
+    kind: objective
+    weight: 0.45
+    depends_on:
+      - agent-protocol
+  - id: robustness
+    title: "Recovers under hidden dynamics shifts and disturbances"
+    kind: objective
+    weight: 0.35
+    depends_on:
+      - agent-protocol
+  - id: control-efficiency
+    title: "Uses bounded and efficient control"
+    kind: objective
+    weight: 0.1
+    depends_on:
+      - agent-protocol
+  - id: review-artifacts
+    title: Human-review evidence is complete
+    kind: diagnostic
+    weight: 0
+    depends_on: []

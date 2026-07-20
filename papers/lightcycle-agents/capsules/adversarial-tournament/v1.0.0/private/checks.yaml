@@ -1,0 +1,30 @@
+schema_version: 1
+checks:
+  - id: bot-protocol
+    title: "Bot responds legally within the turn budget"
+    kind: objective
+    weight: 0.1
+    depends_on: []
+  - id: fixed-opponent-field
+    title: "Performs against calibrated reference bots"
+    kind: objective
+    weight: 0.25
+    depends_on:
+      - bot-protocol
+  - id: cross-agent-tournament
+    title: "Wins direct matches against other submissions"
+    kind: objective
+    weight: 0.55
+    depends_on:
+      - bot-protocol
+  - id: reliability
+    title: "Avoids timeouts, crashes, and illegal moves"
+    kind: objective
+    weight: 0.1
+    depends_on:
+      - bot-protocol
+  - id: review-artifacts
+    title: Human-review evidence is complete
+    kind: diagnostic
+    weight: 0
+    depends_on: []

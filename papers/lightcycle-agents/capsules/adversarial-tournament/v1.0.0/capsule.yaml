@@ -1,0 +1,55 @@
+schema_version: 1
+id: adversarial-tournament
+version: 1.0.0
+status: draft
+paper_id: lightcycle-agents
+capsule:
+  title: "Adversarial Lightcycle Tournament"
+  summary: >-
+    A visually inspectable reproduction plus an open competitive extension with hidden cases.
+  domains:
+    - "game AI"
+    - "adversarial search"
+    - "multi-agent systems"
+  research_types:
+    - "proxy-reproduction"
+    - "algorithmic-property"
+    - "systems-engineering"
+    - "comparative-method"
+  verification_forms:
+    - "head-to-head competition"
+    - "software conformance"
+    - "visual/interactive"
+    - "competitive score"
+  fidelity:
+    level: proxy
+    rationale: >-
+      A compact simultaneous-action arena preserves adversarial planning, territory, uncertainty, and direct competition.
+    transfer_argument: >-
+      A compact simultaneous-action arena preserves adversarial planning, territory, uncertainty, and direct competition.
+    limitations:
+      - The compact local arena does not reproduce the source paper's largest experiments.
+      - Difficulty and score weights require pilot calibration before promotion.
+submission:
+  reproduce: submission/reproduce.sh
+  report: submission/REPORT.md
+  demo: submission/demo.sh
+competition:
+  mode: head-to-head
+  primary_metric:
+    id: objective_score
+    title: "Cross-agent tournament score"
+    direction: higher-is-better
+    unit: "match points"
+    description: Weighted normalized score produced from trusted hidden evaluation.
+  tiebreakers:
+    - id: declared_tiebreakers
+      title: "Head-to-head points, then fixed-field score, then lower timeout rate."
+      direction: higher-is-better
+      unit: task-specific raw metrics
+      description: Applied in the order documented by the private verifier.
+  qualification_checks:
+    - bot-protocol
+  tie_tolerance: 0.001
+  winner_rule: >-
+    Highest qualifying round-robin tournament score wins after paired sides and hidden maps.

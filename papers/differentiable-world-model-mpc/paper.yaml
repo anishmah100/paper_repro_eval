@@ -1,0 +1,24 @@
+schema_version: 1
+id: differentiable-world-model-mpc
+metadata:
+  id: differentiable-world-model-mpc
+  title: "Model Predictive Control with Differentiable World Models for Offline Reinforcement Learning"
+  authors:
+    - "Rohan Deb"
+    - "Stephen J. Wright"
+    - "Arindam Banerjee"
+  published: "2026"
+  source_url: https://arxiv.org/abs/2603.22430
+  local_files:
+    - paper/SOURCE.md
+summary: >-
+  Source paper and benchmark interpretation for the Visual Offline World-Model Control arena.
+domains:
+  - "reinforcement learning"
+  - "world models"
+  - "optimal control"
+capsules:
+  - id: visual-offline-control
+    version: 1.0.0
+    status: draft
+    path: capsules/visual-offline-control/v1.0.0

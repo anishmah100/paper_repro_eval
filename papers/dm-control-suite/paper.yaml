@@ -1,0 +1,32 @@
+schema_version: 1
+id: dm-control-suite
+metadata:
+  id: dm-control-suite
+  title: "dm_control: Software and Tasks for Continuous Control"
+  authors:
+    - "Saran Tunyasuvunakool"
+    - "Alistair Muldal"
+    - "Yotam Doron"
+    - "Siqi Liu"
+    - "Steven Bohez"
+    - "Josh Merel"
+    - "Tom Erez"
+    - "Timothy Lillicrap"
+    - "Nicolas Heess"
+    - "Yuval Tassa"
+  published: "2020"
+  source_url: https://arxiv.org/abs/2006.12983
+  local_files:
+    - paper/SOURCE.md
+summary: >-
+  Source paper and benchmark interpretation for the Progressive Multi-Pole Control arena.
+domains:
+  - "reinforcement learning"
+  - "control"
+  - "robotics"
+  - "simulation"
+capsules:
+  - id: multipole-control
+    version: 1.0.0
+    status: draft
+    path: capsules/multipole-control/v1.0.0

@@ -1,0 +1,22 @@
+schema_version: 1
+id: lightcycle-agents
+metadata:
+  id: lightcycle-agents
+  title: "Visual Adversarial Lightcycle Arena Specification"
+  authors:
+    - "paper_repro_eval benchmark authors"
+  published: "2026"
+  source_url: null
+  local_files:
+    - paper/SOURCE.md
+summary: >-
+  Source paper and benchmark interpretation for the Adversarial Lightcycle Tournament arena.
+domains:
+  - "game AI"
+  - "adversarial search"
+  - "multi-agent systems"
+capsules:
+  - id: adversarial-tournament
+    version: 1.0.0
+    status: draft
+    path: capsules/adversarial-tournament/v1.0.0

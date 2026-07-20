@@ -1,0 +1,36 @@
+schema_version: 1
+checks:
+  - id: render-correctness
+    title: "Produces finite, geometrically valid renders"
+    kind: objective
+    weight: 0.15
+    depends_on: []
+  - id: estimator-validity
+    title: "Passes bias and energy sanity checks"
+    kind: objective
+    weight: 0.15
+    depends_on:
+      - render-correctness
+  - id: equal-time-quality
+    title: "Minimizes hidden-scene error at equal time"
+    kind: objective
+    weight: 0.45
+    depends_on:
+      - estimator-validity
+  - id: mis-variance
+    title: "Demonstrates robust variance reduction from MIS"
+    kind: objective
+    weight: 0.15
+    depends_on:
+      - estimator-validity
+  - id: throughput
+    title: "Traces scenes efficiently"
+    kind: objective
+    weight: 0.1
+    depends_on:
+      - render-correctness
+  - id: review-artifacts
+    title: Human-review evidence is complete
+    kind: diagnostic
+    weight: 0
+    depends_on: []

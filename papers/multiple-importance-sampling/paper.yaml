@@ -1,0 +1,23 @@
+schema_version: 1
+id: multiple-importance-sampling
+metadata:
+  id: multiple-importance-sampling
+  title: "Optimally Combining Sampling Techniques for Monte Carlo Rendering"
+  authors:
+    - "Eric Veach"
+    - "Leonidas J. Guibas"
+  published: "1995"
+  source_url: https://www-graphics.stanford.edu/papers/combine/
+  local_files:
+    - paper/SOURCE.md
+summary: >-
+  Source paper and benchmark interpretation for the Progressive Competitive Path Tracer arena.
+domains:
+  - "computer graphics"
+  - "Monte Carlo methods"
+  - "rendering"
+capsules:
+  - id: progressive-path-tracer
+    version: 1.0.0
+    status: draft
+    path: capsules/progressive-path-tracer/v1.0.0

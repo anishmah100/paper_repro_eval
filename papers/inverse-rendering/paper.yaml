@@ -1,0 +1,24 @@
+schema_version: 1
+id: inverse-rendering
+metadata:
+  id: inverse-rendering
+  title: "Neural 3D Mesh Renderer"
+  authors:
+    - "Hiroharu Kato"
+    - "Yoshitaka Ushiku"
+    - "Tatsuya Harada"
+  published: "2018"
+  source_url: https://openaccess.thecvf.com/content_cvpr_2018/html/Kato_Neural_3D_Mesh_CVPR_2018_paper.html
+  local_files:
+    - paper/SOURCE.md
+summary: >-
+  Source paper and benchmark interpretation for the Procedural Inverse-Rendering Challenge arena.
+domains:
+  - "computer graphics"
+  - "computer vision"
+  - "inverse problems"
+capsules:
+  - id: procedural-scene-recovery
+    version: 1.0.0
+    status: draft
+    path: capsules/procedural-scene-recovery/v1.0.0

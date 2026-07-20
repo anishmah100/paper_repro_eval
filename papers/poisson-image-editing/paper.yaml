@@ -1,0 +1,24 @@
+schema_version: 1
+id: poisson-image-editing
+metadata:
+  id: poisson-image-editing
+  title: "Poisson Image Editing"
+  authors:
+    - "Patrick Pérez"
+    - "Michel Gangnet"
+    - "Andrew Blake"
+  published: "2003"
+  source_url: https://dl.acm.org/doi/10.1145/882262.882269
+  local_files:
+    - paper/SOURCE.md
+summary: >-
+  Source paper and benchmark interpretation for the Competitive Poisson Editing Laboratory arena.
+domains:
+  - "computer graphics"
+  - "computer vision"
+  - "partial differential equations"
+capsules:
+  - id: competitive-editing
+    version: 1.0.0
+    status: draft
+    path: capsules/competitive-editing/v1.0.0

@@ -154,6 +154,20 @@ def scaffold(
                 "limitations": [],
             },
         },
+        "competition": {
+            "mode": "independent-score",
+            "primary_metric": {
+                "id": "objective_score",
+                "title": "Normalized objective score",
+                "direction": "higher-is-better",
+                "unit": "score in [0, 1]",
+                "description": "Weighted score produced by the private verifier.",
+            },
+            "tiebreakers": [],
+            "qualification_checks": ["core-result"],
+            "tie_tolerance": 1e-6,
+            "winner_rule": "Highest qualifying objective score wins; scores within tolerance tie.",
+        },
     }
     dump_yaml(pack / "capsule.yaml", manifest)
     (pack / "public" / "TASK.md").write_text(
