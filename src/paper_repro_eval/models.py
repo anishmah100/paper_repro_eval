@@ -54,24 +54,22 @@ def _relative_safe_path(value: str) -> str:
     return value
 
 
-class RegistryEntry(StrictModel):
+class PaperRegistryEntry(StrictModel):
     id: str
-    version: str
-    status: CapsuleStatus
     path: str
 
     _validate_path = field_validator("path")(_relative_safe_path)
 
 
-class CapsuleRegistry(StrictModel):
+class PaperRegistry(StrictModel):
     schema_version: Literal[1] = 1
-    capsules: list[RegistryEntry] = Field(default_factory=list)
+    papers: list[PaperRegistryEntry] = Field(default_factory=list)
 
     @model_validator(mode="after")
-    def unique_entries(self) -> CapsuleRegistry:
-        keys = [(entry.id, entry.version) for entry in self.capsules]
-        if len(keys) != len(set(keys)):
-            raise ValueError("Capsule registry contains duplicate id/version entries")
+    def unique_entries(self) -> PaperRegistry:
+        ids = [entry.id for entry in self.papers]
+        if len(ids) != len(set(ids)):
+            raise ValueError("Paper registry contains duplicate IDs")
         return self
 
 
@@ -87,6 +85,33 @@ class PaperMetadata(StrictModel):
     @classmethod
     def safe_local_files(cls, values: list[str]) -> list[str]:
         return [_relative_safe_path(value) for value in values]
+
+
+class CapsuleEntry(StrictModel):
+    id: str
+    version: str
+    status: CapsuleStatus
+    path: str
+
+    _validate_path = field_validator("path")(_relative_safe_path)
+
+
+class PaperManifest(StrictModel):
+    schema_version: Literal[1] = 1
+    id: str
+    metadata: PaperMetadata
+    summary: str = ""
+    domains: list[str] = Field(default_factory=list)
+    capsules: list[CapsuleEntry] = Field(default_factory=list)
+
+    @model_validator(mode="after")
+    def valid_paper(self) -> PaperManifest:
+        if self.metadata.id != self.id:
+            raise ValueError("Paper metadata ID must match paper manifest ID")
+        keys = [(entry.id, entry.version) for entry in self.capsules]
+        if len(keys) != len(set(keys)):
+            raise ValueError("Paper contains duplicate capsule id/version entries")
+        return self
 
 
 class Fidelity(StrictModel):
@@ -127,13 +152,14 @@ class CapsuleManifest(StrictModel):
     id: str
     version: str
     status: CapsuleStatus
-    paper: PaperMetadata
+    paper_id: str
     capsule: CapsuleDetails
     submission: SubmissionContract = Field(default_factory=SubmissionContract)
 
 
 class CapsuleRef(StrictModel):
-    id: str
+    paper_id: str
+    capsule_id: str
     version: str
     digest: str | None = None
 
@@ -147,7 +173,9 @@ class SuiteManifest(StrictModel):
 
     @model_validator(mode="after")
     def unique_capsules(self) -> SuiteManifest:
-        keys = [(capsule.id, capsule.version) for capsule in self.capsules]
+        keys = [
+            (capsule.paper_id, capsule.capsule_id, capsule.version) for capsule in self.capsules
+        ]
         if len(keys) != len(set(keys)):
             raise ValueError("Suite contains duplicate capsule references")
         return self
@@ -253,6 +281,7 @@ class RunRecord(StrictModel):
     schema_version: Literal[1] = 1
     run_id: str
     suite_id: str
+    paper_id: str
     capsule_id: str
     capsule_version: str
     capsule_digest: str

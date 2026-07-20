@@ -1,6 +1,10 @@
 # Capsule design
 
-A capsule is a bounded, verifiable slice of a paper. Categories are tags, not mutually exclusive
+A paper is the parent scientific object. Its paper.yaml holds bibliographic metadata, shared
+domains and files, and the authoritative list of capsules. Shared material is stored once. A paper
+may own many capsules testing different claims, figures, algorithms, or software artifacts.
+
+A capsule is one bounded, verifiable slice of its owning paper. Categories are tags, not mutually exclusive
 classes. Supported shapes include exact mathematics, formal proof, algorithmic properties,
 comparative methods, fixed-data analyses, small training runs, interpretability, visual/graphics,
 simulation/physics, systems engineering, and ordinary research software conformance.

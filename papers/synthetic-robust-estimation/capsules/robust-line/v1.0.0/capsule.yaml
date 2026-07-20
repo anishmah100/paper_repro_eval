@@ -1,16 +1,8 @@
 schema_version: 1
-id: synthetic-robust-line
+id: robust-line
 version: "1.0.0"
 status: audited
-paper:
-  id: synthetic-robust-line
-  title: Synthetic Theil-Sen Robust Line Capsule
-  authors:
-    - paper_repro_eval maintainers
-  published: "2026"
-  source_url: null
-  local_files:
-    - paper/SYNTHETIC.md
+paper_id: synthetic-robust-estimation
 capsule:
   title: Reproduce a robust median-slope estimator
   summary: Implement a precisely specified robust estimator and demonstrate it on fresh data.

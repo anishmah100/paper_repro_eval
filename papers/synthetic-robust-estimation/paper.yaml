@@ -1,0 +1,20 @@
+schema_version: 1
+id: synthetic-robust-estimation
+metadata:
+  id: synthetic-robust-estimation
+  title: Synthetic Robust Estimation Paper
+  authors:
+    - paper_repro_eval maintainers
+  published: "2026"
+  source_url: null
+  local_files:
+    - paper/SYNTHETIC.md
+summary: Shared synthetic paper material used to exercise multiple reproduction capsules.
+domains:
+  - robust-statistics
+  - algorithms
+capsules:
+  - id: robust-line
+    version: "1.0.0"
+    status: audited
+    path: capsules/robust-line/v1.0.0

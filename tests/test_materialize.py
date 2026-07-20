@@ -13,6 +13,8 @@ def test_prepare_makes_identical_physical_independent_repositories(
     assert len(records) == 2
     assert records[0].initial_digest == records[1].initial_digest
     first = find_run(repository, records[0].run_id).workspace
+    assert all(record.paper_id == "synthetic-robust-estimation" for record in records)
+    assert all(record.capsule_id == "robust-line" for record in records)
     second = find_run(repository, records[1].run_id).workspace
     assert first != second
     assert (first / ".git").is_dir()
@@ -22,6 +24,19 @@ def test_prepare_makes_identical_physical_independent_repositories(
     assert not (first / "private").exists()
     assert not (first / "checks.yaml").exists()
     assert (first / "submission").is_dir()
+    relative = first.relative_to(repository.root)
+    assert relative.parts[:8] == (
+        "runs",
+        "synthetic-smoke",
+        "papers",
+        "synthetic-robust-estimation",
+        "capsules",
+        "robust-line",
+        "agents",
+        "model-a",
+    )
+    assert (first / "paper" / "SYNTHETIC.md").is_file()
+    assert (first / "paper_resources" / "README.md").is_file()
 
 
 def test_container_command_mounts_only_selected_workspace(

@@ -1,9 +1,25 @@
 # Architecture
 
-The filesystem is authoritative. A suite pins immutable capsule versions; prepare makes one
-physical, independently initialized Git repository per capsule, agent, and attempt. It copies only
-the public pack. No candidate workspace contains trusted checks, hidden inputs, references, or
-another model's output.
+The filesystem is authoritative and paper-first. A paper owns shared metadata and source material,
+then a clean list of one or more versioned capsules:
+
+    papers/PAPER/
+      paper.yaml
+      paper/
+      resources/
+      capsules/CAPSULE/VERSION/
+        capsule.yaml
+        public/
+        private/
+
+A suite references paper ID, capsule ID, and version explicitly. prepare makes one independent Git
+repository for every capsule/agent/attempt. Runtime state mirrors scientific ownership:
+
+    runs/SUITE/papers/PAPER/capsules/CAPSULE/agents/AGENT/attempt-NNN/
+
+Paper files are copied to workspace/paper and workspace/paper_resources. Capsule task material is
+copied to TASK.md, resources/, and starter/. No candidate sees private checks, hidden inputs,
+references, or another model's output.
 
 The lifecycle is:
 

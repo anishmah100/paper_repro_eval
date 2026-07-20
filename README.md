@@ -13,7 +13,9 @@ that a candidate must not see another candidate's local workspace or output.
 
 The framework separates:
 
-- public paper-specific task material;
+- paper-level metadata, source material, and shared resources;
+- multiple versioned capsules owned by each paper;
+- capsule-specific public tasks and private verifiers;
 - isolated per-assistant workspaces;
 - immutable sealed submissions;
 - clean reproduction;

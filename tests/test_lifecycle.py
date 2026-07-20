@@ -14,7 +14,13 @@ from paper_repro_eval.verification import verify_run
 def _write_reference_submission(repository: Repository, run_id: str) -> Path:
     run = find_run(repository, run_id)
     submission = run.workspace / "submission"
-    pack = repository.packs_dir / "synthetic-robust-line" / "v1.0.0"
+    pack = (
+        repository.papers_dir
+        / "synthetic-robust-estimation"
+        / "capsules"
+        / "robust-line"
+        / "v1.0.0"
+    )
     shutil.copy2(pack / "private" / "reference" / "solution.py", submission / "solution.py")
     shutil.copy2(pack / "public" / "resources" / "visible.json", submission / "visible.json")
     (submission / "reproduce.sh").write_text(

@@ -15,15 +15,11 @@ class Repository:
 
     @property
     def registry_path(self) -> Path:
-        return self.root / "capsules" / "registry.yaml"
+        return self.root / "papers" / "registry.yaml"
 
     @property
-    def capsules_dir(self) -> Path:
-        return self.root / "capsules"
-
-    @property
-    def packs_dir(self) -> Path:
-        return self.root / "capsules" / "packs"
+    def papers_dir(self) -> Path:
+        return self.root / "papers"
 
     @property
     def suites_dir(self) -> Path:
@@ -72,4 +68,4 @@ def discover_repository(start: Path | None = None) -> Repository:
 
 
 def _is_repository(path: Path) -> bool:
-    return (path / "pyproject.toml").is_file() and (path / "capsules" / "registry.yaml").is_file()
+    return (path / "pyproject.toml").is_file() and (path / "papers" / "registry.yaml").is_file()

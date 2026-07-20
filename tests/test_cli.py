@@ -11,7 +11,11 @@ def test_cli_lists_and_validates(repository: Repository, monkeypatch) -> None:
     runner = CliRunner()
     listed = runner.invoke(app, ["capsules", "list"])
     assert listed.exit_code == 0
-    assert "synthetic-robust-line" in listed.stdout
+    assert "synthetic-robust-e" in listed.stdout
+    assert "robust-line" in listed.stdout
+    papers = runner.invoke(app, ["papers", "list"])
+    assert papers.exit_code == 0
+    assert "synthetic-robust-es" in papers.stdout
     validated = runner.invoke(app, ["suites", "validate", "synthetic-smoke"])
     assert validated.exit_code == 0
     assert "valid" in validated.stdout

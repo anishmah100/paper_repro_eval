@@ -80,7 +80,9 @@ def _score(graph: CheckGraph, results: list[CheckResult]) -> float | None:
 def verify_run(repository: Repository, run_id: str) -> VerificationRecord:
     run = find_run(repository, run_id)
     reproduction_dir, reproduction = latest_reproduction(run)
-    capsule = resolve_capsule(repository, run.record.capsule_id, run.record.capsule_version)
+    capsule = resolve_capsule(
+        repository, run.record.paper_id, run.record.capsule_id, run.record.capsule_version
+    )
     if capsule.digest != run.record.capsule_digest:
         raise IntegrityError(
             "Capsule changed since preparation; restore the pinned capsule before verification"

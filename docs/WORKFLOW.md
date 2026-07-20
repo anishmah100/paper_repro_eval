@@ -1,5 +1,8 @@
 # Operator workflow
 
+Inspect paper-level information with papers show PAPER_ID and its capsules with
+capsules list PAPER_ID. Suites use explicit paper/capsule/version references.
+
 Validate and prepare a suite:
 
     paper_repro_eval suites validate synthetic-smoke
@@ -8,6 +11,9 @@ Validate and prepare a suite:
 Each row prints a run ID and workspace. Open the corresponding coding assistant in only that
 workspace and say, for example: “Do the assigned task.” The task itself explains required outputs:
 submission/reproduce.sh, submission/REPORT.md, and any capsule-specific source or demo.
+
+Attempts live beneath runs/SUITE/papers/PAPER/capsules/CAPSULE/agents/AGENT. Each workspace receives
+shared paper material plus only that capsule's public task data.
 
 When the assistant finishes:
 

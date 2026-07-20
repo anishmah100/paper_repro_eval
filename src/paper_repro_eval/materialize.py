@@ -1,4 +1,4 @@
-"""Automated, deterministic candidate-workspace materialization."""
+"""Deterministic paper/capsule/agent workspace materialization."""
 
 from __future__ import annotations
 
@@ -13,8 +13,7 @@ from .models import RunRecord, RunState
 from .repository import Repository
 from .util import atomic_directory, copy_tree_safe, dump_json, slugify, tree_digest, utc_now
 
-PUBLIC_MAPPINGS = {
-    "paper": "paper",
+CAPSULE_PUBLIC_MAPPINGS = {
     "resources": "resources",
     "starter": "starter",
 }
@@ -31,16 +30,22 @@ def _next_attempt(agent_dir: Path) -> int:
     return max(attempts, default=0) + 1
 
 
+def _copy_or_create(source: Path, destination: Path) -> None:
+    if source.is_dir():
+        copy_tree_safe(source, destination)
+    else:
+        destination.mkdir(parents=True)
+
+
 def _materialize_public(capsule: ResolvedCapsule, workspace: Path) -> None:
-    task = capsule.public_dir / "TASK.md"
-    shutil.copy2(task, workspace / "TASK.md")
-    for source_name, destination_name in PUBLIC_MAPPINGS.items():
-        source = capsule.public_dir / source_name
-        destination = workspace / destination_name
-        if source.is_dir():
-            copy_tree_safe(source, destination)
-        else:
-            destination.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(capsule.public_dir / "TASK.md", workspace / "TASK.md")
+    _copy_or_create(capsule.paper.materials_dir, workspace / "paper")
+    _copy_or_create(capsule.paper.resources_dir, workspace / "paper_resources")
+    for source_name, destination_name in CAPSULE_PUBLIC_MAPPINGS.items():
+        _copy_or_create(
+            capsule.public_dir / source_name,
+            workspace / destination_name,
+        )
     (workspace / "submission").mkdir()
 
 
@@ -60,10 +65,20 @@ def prepare_suite(
     digests_by_capsule: dict[str, set[str]] = {}
 
     for capsule in capsules:
+        paper_slug = slugify(capsule.paper.manifest.id)
         capsule_slug = slugify(capsule.manifest.id)
         for agent in agents:
             agent_slug = slugify(agent)
-            agent_dir = repository.runs_dir / slugify(suite.id) / capsule_slug / agent_slug
+            agent_dir = (
+                repository.runs_dir
+                / slugify(suite.id)
+                / "papers"
+                / paper_slug
+                / "capsules"
+                / capsule_slug
+                / "agents"
+                / agent_slug
+            )
             attempt = _next_attempt(agent_dir)
             attempt_dir = agent_dir / f"attempt-{attempt:03d}"
             run_id = uuid.uuid4().hex[:12]
@@ -77,6 +92,7 @@ def prepare_suite(
                 record = RunRecord(
                     run_id=run_id,
                     suite_id=suite.id,
+                    paper_id=capsule.paper.manifest.id,
                     capsule_id=capsule.manifest.id,
                     capsule_version=capsule.manifest.version,
                     capsule_digest=capsule.digest,
@@ -91,7 +107,8 @@ def prepare_suite(
                 )
                 dump_json(stage / "run.json", record.model_dump(mode="json"))
             records.append(record)
-            digests_by_capsule.setdefault(capsule.manifest.id, set()).add(record.initial_digest)
+            key = f"{capsule.paper.manifest.id}/{capsule.manifest.id}"
+            digests_by_capsule.setdefault(key, set()).add(record.initial_digest)
 
     mismatches = {
         capsule_id: digests

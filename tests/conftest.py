@@ -14,7 +14,7 @@ PROJECT_ROOT = Path(__file__).parents[1]
 def repository(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Repository:
     root = tmp_path / "evaluation"
     root.mkdir()
-    shutil.copytree(PROJECT_ROOT / "capsules", root / "capsules")
+    shutil.copytree(PROJECT_ROOT / "papers", root / "papers")
     shutil.copytree(PROJECT_ROOT / "suites", root / "suites")
     shutil.copy2(PROJECT_ROOT / "REVIEWING.md", root / "REVIEWING.md")
     shutil.copy2(PROJECT_ROOT / "pyproject.toml", root / "pyproject.toml")

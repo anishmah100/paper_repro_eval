@@ -36,7 +36,9 @@ def create_review_packet(repository: Repository, run_id: str) -> Path:
     seal_dir, seal = latest_seal(run)
     reproduction_dir, reproduction = latest_reproduction(run)
     verification_dir, verification = latest_verification(repository, run_id)
-    capsule = resolve_capsule(repository, run.record.capsule_id, run.record.capsule_version)
+    capsule = resolve_capsule(
+        repository, run.record.paper_id, run.record.capsule_id, run.record.capsule_version
+    )
     destination = run.review_dir / f"verification-{reproduction.attempt:03d}"
     if destination.exists():
         return destination
@@ -55,7 +57,7 @@ def create_review_packet(repository: Repository, run_id: str) -> Path:
         if (verification_dir / "evidence").exists():
             copy_tree_safe(verification_dir / "evidence", stage / "evidence")
         lines = [
-            f"# Review: {run.record.capsule_id} — {run.record.agent}",
+            f"# Review: {run.record.paper_id}/{run.record.capsule_id} — {run.record.agent}",
             "",
             f"- Run: {run_id}",
             f"- Seal revision: {seal.revision}",
@@ -120,6 +122,7 @@ def suite_report(repository: Repository, suite_id: str) -> Path:
         rows.append(
             {
                 "run_id": run.record.run_id,
+                "paper": run.record.paper_id,
                 "capsule": run.record.capsule_id,
                 "version": run.record.capsule_version,
                 "agent": run.record.agent,
@@ -138,12 +141,13 @@ def suite_report(repository: Repository, suite_id: str) -> Path:
     md = [
         f"# Suite report: {suite_id}",
         "",
-        "| Capsule | Agent | Status | Score |",
+        "| Paper / capsule | Agent | Status | Score |",
         "|---|---|---:|---:|",
     ]
     for row in rows:
         md.append(
-            f"| {row['capsule']} | {row['agent']} | {row['status']} | {row['objective_score']} |"
+            f"| {row['paper']} / {row['capsule']} | {row['agent']} | "
+            f"{row['status']} | {row['objective_score']} |"
         )
     markdown = "\n".join(md) + "\n"
     (destination / "report.md").write_text(markdown, encoding="utf-8")
@@ -160,6 +164,7 @@ def curate(repository: Repository, run_id: str) -> Path:
     packet = create_review_packet(repository, run_id)
     destination = (
         repository.learning_dir
+        / run.record.paper_id
         / run.record.capsule_id
         / run.record.capsule_version
         / f"{run.record.agent}-attempt-{run.record.attempt:03d}"
@@ -171,6 +176,7 @@ def curate(repository: Repository, run_id: str) -> Path:
         destination / "CURATION.json",
         {
             "schema_version": 1,
+            "paper": run.record.paper_id,
             "run_id": run_id,
             "capsule": run.record.capsule_id,
             "version": run.record.capsule_version,
