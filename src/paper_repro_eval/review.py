@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import csv
+import html
 import shutil
 from pathlib import Path
 
@@ -15,8 +16,8 @@ from .errors import ConfigurationError, IntegrityError
 from .lifecycle import latest_reproduction, latest_seal, update_state
 from .models import CheckStatus, RunState
 from .repository import Repository
-from .run_store import find_run, list_runs
-from .util import atomic_directory, copy_tree_safe, dump_json
+from .run_store import StoredRun, find_run, list_runs
+from .util import atomic_directory, copy_tree_safe, dump_json, slugify, utc_now
 from .verification import latest_verification
 
 
@@ -182,6 +183,87 @@ def suite_report(repository: Repository, suite_id: str) -> Path:
     (destination / "LEADERBOARD.md").write_text(
         render_leaderboards(suite_id, leaderboards), encoding="utf-8"
     )
+    return destination
+
+
+def visual_gallery(
+    repository: Repository, suite_id: str, *, agents: set[str] | None = None
+) -> Path:
+    """Build a self-contained side-by-side gallery from latest verified attempts."""
+    latest: dict[tuple[str, str, str], StoredRun] = {}
+    for run in list_runs(repository):
+        if run.record.suite_id != suite_id or (
+            agents is not None and run.record.agent not in agents
+        ):
+            continue
+        key = (run.record.paper_id, run.record.capsule_id, run.record.agent)
+        previous = latest.get(key)
+        if previous is None or run.record.attempt > previous.record.attempt:
+            latest[key] = run
+    verified = []
+    for run in latest.values():
+        try:
+            _, verification = latest_verification(repository, run.record.run_id)
+        except ConfigurationError:
+            continue
+        verified.append((run, verification))
+    if not verified:
+        raise ConfigurationError(f"No verified runs for suite {suite_id}")
+    stamp = utc_now().replace(":", "").replace("+", "-")
+    destination = repository.reports_dir / slugify(suite_id) / "galleries" / stamp
+    entries = destination / "entries"
+    entries.mkdir(parents=True)
+    cards = []
+    for run, verification in sorted(
+        verified,
+        key=lambda item: (
+            item[0].record.paper_id,
+            item[0].record.capsule_id,
+            item[0].record.agent,
+        ),
+    ):
+        packet = create_review_packet(repository, run.record.run_id)
+        name = slugify(f"{run.record.paper_id}--{run.record.capsule_id}--{run.record.agent}")
+        copied = entries / name
+        copy_tree_safe(packet, copied)
+        images = [
+            path.relative_to(destination).as_posix()
+            for path in sorted(copied.rglob("*"))
+            if path.suffix.lower() in {".png", ".jpg", ".jpeg", ".gif", ".svg"}
+        ]
+        thumbnails = (
+            "".join(
+                f"<a href='{html.escape(path)}'><img loading='lazy' src='{html.escape(path)}'></a>"
+                for path in images[:8]
+            )
+            or "<p class='missing'>No image artifact; inspect the review packet.</p>"
+        )
+        cards.append(
+            "<article>"
+            f"<h2>{html.escape(run.record.paper_id)} / "
+            f"{html.escape(run.record.capsule_id)}</h2>"
+            f"<h3>{html.escape(run.record.agent)}</h3>"
+            f"<p>Score: <strong>{verification.objective_score}</strong> · "
+            f"<a href='entries/{name}/index.html'>review packet</a> · "
+            f"<a href='entries/{name}/NOTES.md'>notes</a></p>"
+            f"<div class='images'>{thumbnails}</div>"
+            "</article>"
+        )
+    page = (
+        "<!doctype html><meta charset='utf-8'><title>Visual comparison gallery</title>"
+        "<style>body{background:#0b1020;color:#e5e7eb;font:15px system-ui;margin:24px}"
+        "main{display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:18px}"
+        "article{background:#151c2f;border:1px solid #334155;border-radius:10px;padding:16px}"
+        "h2{font-size:17px}h3{color:#93c5fd}a{color:#67e8f9}"
+        ".images{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}"
+        "img{width:100%;height:220px;object-fit:contain;background:#050816}"
+        ".missing{color:#fca5a5}</style>"
+        f"<h1>Visual comparison: {html.escape(suite_id)}</h1>"
+        "<p>Latest verified attempt per agent and capsule. Click an image for full resolution "
+        "or open the review packet for metrics, reports, hidden evidence, and notes.</p>"
+        f"<main>{''.join(cards)}</main>"
+    )
+    (destination / "index.html").write_text(page, encoding="utf-8")
     return destination
 
 

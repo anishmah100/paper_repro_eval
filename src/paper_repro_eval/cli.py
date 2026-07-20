@@ -31,10 +31,11 @@ from .errors import PaperReproEvalError
 from .lifecycle import reproduce_run, seal_run
 from .materialize import prepare_suite
 from .repository import Repository, discover_repository
-from .review import create_review_packet, suite_report
+from .review import create_review_packet, suite_report, visual_gallery
 from .review import curate as curate_run
 from .run_store import find_run, list_runs
 from .sandbox import container_command
+from .tournament import run_lightcycle_tournament
 from .util import dump_yaml, load_yaml, slugify
 from .verification import verify_run
 
@@ -267,6 +268,31 @@ def review(run_id: str) -> None:
 @app.command()
 def report(suite_id: str) -> None:
     console.print(suite_report(_repo(), suite_id))
+
+
+@app.command()
+def gallery(
+    suite_id: Annotated[str, typer.Argument(help="Suite ID")],
+    agent: Annotated[
+        list[str] | None, typer.Option("--agent", "-a", help="Limit to named agents")
+    ] = None,
+) -> None:
+    console.print(visual_gallery(_repo(), suite_id, agents=set(agent or []) or None))
+
+
+@app.command()
+def tournament(
+    suite_id: Annotated[str, typer.Argument(help="Suite ID")],
+    seeds: Annotated[int, typer.Option(help="Deterministic maps per pairing")] = 4,
+    agent: Annotated[
+        list[str] | None, typer.Option("--agent", "-a", help="Limit to named qualifying agents")
+    ] = None,
+    turn_timeout: Annotated[float, typer.Option(help="Per-turn bot deadline in seconds")] = 0.25,
+) -> None:
+    destination = run_lightcycle_tournament(
+        _repo(), suite_id, seeds=seeds, turn_timeout=turn_timeout, agents=set(agent or []) or None
+    )
+    console.print(destination)
 
 
 @app.command()

@@ -236,9 +236,8 @@ def baseline(task: str, c: dict[str, Any]) -> dict[str, Any]:
             a=np.clip(3*(target-pos)-1.4*vel, -1,1); acts.append(a.tolist()); vel+=.08*(a+[c["wind"],-.18]); pos+=.08*vel
         return {"actions":acts}
     if task=="topology":
-        h,w=c["height"],c["width"]; yy,xx=np.mgrid[:h,:w]; load_y=np.mean([z[1] for z in c["loads"]])
-        d=(abs(yy-(load_y+(h/2-load_y)*(1-xx/(w-1))))<2).astype(float)
-        d[:,0]=1; return {"density":d.tolist()}
+        d=np.full((c["height"],c["width"]),c["volume"])
+        return {"density":d.tolist()}
     if task=="smoke":
         target=np.array(c["target"]); ty,tx=np.unravel_index(np.argmax(target),target.shape); sy,sx=c["source"]
         return {"controls":[[float(np.clip((tx-sx)/18,-1,1)),float(np.clip((sy-ty)/18,-1,1))]]*c["steps"]}

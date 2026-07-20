@@ -8,7 +8,6 @@ version = "0.1.0"
 description = "A reusable framework for evaluating native coding assistants on verifiable paper-reproduction capsules."
 readme = "README.md"
 requires-python = ">=3.11"
-license = { file = "LICENSE" }
 dependencies = [
   "bleach>=6.2",
   "jinja2>=3.1",

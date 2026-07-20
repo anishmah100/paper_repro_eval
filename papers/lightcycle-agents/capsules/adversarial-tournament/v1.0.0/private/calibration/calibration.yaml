@@ -1,7 +1,19 @@
 schema_version: 1
 arena: lightcycle
-ordering:
-  - malformed-output
-  - public-baseline
-  - private-frontier
-notes: Hidden seeds differ from public development seeds. Promotion requires this strict ordering.
+positive_reference_passes: true
+repeatability_checked: true
+mutants:
+  - illegal-action-bot
+  - timeout-bot
+assertions:
+  - public baseline and private reference emit only legal timely moves
+  - illegal actions fail qualification
+  - missed deadlines fail qualification
+  - paired-side round robin produces standings and complete replays
+hidden_case_coverage:
+  - fixed opponent field
+  - deterministic hidden maps
+  - both starting sides
+commands:
+  - uv run python authoring/calibrate_interactive.py
+  - uv run python authoring/smoke_tournament.py

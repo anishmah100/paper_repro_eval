@@ -3,7 +3,9 @@
 import json,sys
 D={"U":(0,-1),"D":(0,1),"L":(-1,0),"R":(1,0)}
 for line in sys.stdin:
- s=json.loads(line); w,h=s["board"]; x,y=s["you"]; occ={tuple(q) for q in s["occupied"]}; legal=[]
+ s=json.loads(line)
+ if s.get("type")=="reset": continue
+ w,h=s["board"]; x,y=s["you"]; occ={tuple(q) for q in s["occupied"]}; legal=[]
  for m,(dx,dy) in D.items():
   q=(x+dx,y+dy)
   if 0<=q[0]<w and 0<=q[1]<h and q not in occ: legal.append((m,q))

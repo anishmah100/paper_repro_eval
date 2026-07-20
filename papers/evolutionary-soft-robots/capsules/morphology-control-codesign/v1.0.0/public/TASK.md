@@ -13,9 +13,9 @@ robust progress rather than one spectacular rollout.
 
 ## Candidate interface
 
-Provide `submission/design.json` and persistent `submission/controller.sh`, or a single documented
-portable policy artifact accepted by the supplied runner. Provide train.sh when needed and
-reproduce.sh for visible terrains.
+Provide `submission/design.sh CASE.json OUTPUT.json`, returning the morphology and controller
+parameters used by the trusted simulator. Provide `train.sh` when needed and `reproduce.sh` for
+visible terrains.
 
 Required visuals include morphology, actuation phase, center-of-mass trace, nominal success, hidden-
 style perturbation, and representative failure. REPORT.md must explain encoding, search algorithm,

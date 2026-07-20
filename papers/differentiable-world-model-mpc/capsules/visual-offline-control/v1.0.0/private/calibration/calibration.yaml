@@ -1,7 +1,18 @@
 schema_version: 1
 arena: world_mpc
-ordering:
+positive_reference_passes: true
+repeatability_checked: true
+mutants:
   - malformed-output
-  - public-baseline
-  - private-frontier
-notes: Hidden seeds differ from public development seeds. Promotion requires this strict ordering.
+  - zero-action-controller
+assertions:
+  - persistent protocol meets every action deadline
+  - private frontier exceeds the public baseline by at least 0.01
+  - private frontier exceeds the zero-action mutant by at least 0.01
+hidden_case_coverage:
+  - nominal dynamics
+  - dynamics shift
+  - ceiling-difficulty control
+commands:
+  - uv run python authoring/calibrate_interactive.py
+  - uv run python authoring/smoke_arenas.py

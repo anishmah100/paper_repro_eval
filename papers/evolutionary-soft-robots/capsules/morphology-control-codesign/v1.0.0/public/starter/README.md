@@ -1,14 +1,21 @@
-# Executable starter: softrobot
+# Executable starter
 
-This directory contains a deliberately weak public baseline. The prepared workspace also contains
-`arena_kit/arena_kit.py`: deterministic fixture generation, public dynamics, scoring diagnostics,
-and PNG rendering. You may copy or modify it without restriction.
+The evaluated task-native entry point is `design.sh CASE.json OUTPUT.json`. It produces morphology and controller parameters. The starter is a
+deliberately weak but runnable implementation; improve or replace the research method while keeping
+the documented protocol stable.
 
-Batch arenas expose `python solve.py INPUT.json OUTPUT.json`. Lightcycle instead exposes a persistent
-`python bot.py` process using one JSON request and response per line. The required result schema is:
-`morphology grid plus frequency and phase_gradient`.
+The prepared workspace also contains `arena_kit/arena_kit.py`, the visible fixture under
+`resources/`, paper material, and an empty `submission/`. You may copy, vendor, or rewrite starter
+code. The final `submission/` must be self-contained because sealing copies only that directory.
 
-The sealed `submission/` must be self-contained. It must include `reproduce.sh`, `REPORT.md`, the
-candidate entry point, and any vendored runtime code. `reproduce.sh` writes `result.json`,
-`metrics.json`, and `preview.png` under `$REPRO_OUTPUT_DIR`. Start by running the baseline on
-`../resources/visible-case.json`; replace the research method, not the protocol.
+Before sealing, create:
+
+- the task-native entry point and all code or weights it needs;
+- `reproduce.sh`, which writes `result.json`, `metrics.json`, and `preview.png` beneath
+  `$REPRO_OUTPUT_DIR`;
+- `REPORT.md`, explaining the method, validation, deviations, failures, and what the visual
+  evidence demonstrates;
+- `demo.sh` when the task requests an interactive or replayable demonstration.
+
+Use the visible fixture repeatedly while developing. Hidden evaluation changes seeds, geometry, and
+nuisance parameters represented by the same schema. Do not hard-code the visible answer.
