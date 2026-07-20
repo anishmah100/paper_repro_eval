@@ -5,7 +5,10 @@ The installed command is paper_repro_eval.
 - papers list/show/validate inspects paper manifests and shared material.
 - capsules list/show/validate addresses a capsule through paper ID, capsule ID, and version.
 - suites list/show/validate inspects suites.
-- prepare SUITE -a AGENT [-a AGENT...] makes isolated physical workspaces.
+- prepare SUITE -a AGENT [-a AGENT...] makes isolated physical workspaces, validates that they
+  are pristine, and automatically writes a launch sheet.
+- launch-sheet SUITE [-a AGENT...] regenerates the exact workspace/run/prompt handoff for the
+  latest pristine attempts.
 - path RUN_ID, enter RUN_ID, and status [RUN_ID] support native-assistant work.
 - runs list lists every attempt.
 - seal, reproduce, and verify expose lifecycle stages.

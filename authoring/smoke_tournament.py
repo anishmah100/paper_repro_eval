@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """End-to-end smoke for qualifying sealed bots and isolated cross-run tournament."""
+# ruff: noqa: E501 - embedded shell command strings mirror the documented interface.
 
 from __future__ import annotations
 

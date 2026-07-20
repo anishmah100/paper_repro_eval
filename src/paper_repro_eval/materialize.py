@@ -39,9 +39,19 @@ def _copy_or_create(source: Path, destination: Path) -> None:
 
 def _materialize_public(capsule: ResolvedCapsule, workspace: Path) -> None:
     shutil.copy2(capsule.public_dir / "TASK.md", workspace / "TASK.md")
+    contract = capsule.public_dir / "EXECUTABLE_CONTRACT.md"
+    if not contract.is_file():
+        raise IntegrityError(f"Missing exact executable contract: {contract}")
+    shutil.copy2(contract, workspace / "EXECUTABLE_CONTRACT.md")
     _copy_or_create(capsule.paper.materials_dir, workspace / "paper")
     _copy_or_create(capsule.paper.resources_dir, workspace / "paper_resources")
     repository_root = capsule.paper.paper_dir.parent.parent
+    instruction_templates = repository_root / "templates" / "workspace"
+    if not instruction_templates.is_dir():
+        raise IntegrityError(f"Missing workspace instruction templates: {instruction_templates}")
+    for template in instruction_templates.iterdir():
+        if template.is_file():
+            shutil.copy2(template, workspace / template.name)
     _copy_or_create(repository_root / "templates" / "arena_kit", workspace / "arena_kit")
     for source_name, destination_name in CAPSULE_PUBLIC_MAPPINGS.items():
         _copy_or_create(

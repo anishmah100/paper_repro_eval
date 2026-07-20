@@ -8,7 +8,7 @@ Each capsule manifest declares:
 - a competition mode: independent score or head-to-head;
 - a primary metric and its direction;
 - qualification checks that must be satisfied before a run can win;
-- numerical tie tolerance and ordered tiebreakers;
+- numerical tie tolerance;
 - a plain-language winner rule.
 
 The private verifier converts raw measurements into a normalized objective score in [0, 1] for
@@ -19,8 +19,8 @@ audit table but cannot silently replace the latest attempt.
 ## Winner norms
 
 A winner must reproduce successfully, satisfy every qualification check, and beat other qualifying
-runs on the declared primary metric. Scores within the declared tolerance are tied until an explicit
-tiebreaker separates them. If the tiebreakers remain tied, report a tie.
+runs on the declared primary metric. Scores within the declared tolerance are reported as tied. Raw component metrics remain available
+for human interpretation but are not silently used as undeclared automatic tiebreakers.
 
 Head-to-head arenas require both fixed reference opponents and a cross-submission tournament. The
 fixed field makes scores meaningful before all candidates arrive; the tournament provides the direct

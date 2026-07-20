@@ -31,8 +31,9 @@ uv run paper_repro_eval suites validate synthetic-smoke
 uv run paper_repro_eval prepare synthetic-smoke -a model-a -a model-b
 ```
 
-See the [agent-running and review guide](docs/RUNNING_AGENTS.md), [workflow](docs/WORKFLOW.md),
-[architecture](docs/ARCHITECTURE.md), and [CLI reference](docs/CLI.md). The included synthetic suite
+See the [human system guide](docs/HUMAN_GUIDE.md), [task catalog](docs/TASK_CATALOG.md),
+[agent-running and review guide](docs/RUNNING_AGENTS.md), [architecture](docs/ARCHITECTURE.md),
+and [CLI reference](docs/CLI.md). The included synthetic suite
 validates the harness independently of the visual arenas.
 
 ## Development setup

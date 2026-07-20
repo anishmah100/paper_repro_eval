@@ -26,3 +26,19 @@ def test_cli_help_names_the_command_surface() -> None:
     assert "prepare" in result.stdout
     assert "evaluate" in result.stdout
     assert "author" in result.stdout
+
+
+def test_prepare_prints_a_regenerable_pristine_launch_sheet(
+    repository: Repository, monkeypatch
+) -> None:
+    monkeypatch.chdir(repository.root)
+    runner = CliRunner()
+    prepared = runner.invoke(app, ["prepare", "synthetic-smoke", "-a", "model-a"])
+    assert prepared.exit_code == 0, prepared.stdout
+    assert "Launch sheet:" in prepared.stdout
+    sheet = next(repository.reports_dir.rglob("launch-*.md"))
+    assert "WORK_PLAN.md" in sheet.read_text(encoding="utf-8")
+
+    regenerated = runner.invoke(app, ["launch-sheet", "synthetic-smoke", "-a", "model-a"])
+    assert regenerated.exit_code == 0, regenerated.stdout
+    assert "launch-sheets" in regenerated.stdout

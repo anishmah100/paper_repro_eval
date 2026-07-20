@@ -42,12 +42,7 @@ competition:
     direction: higher-is-better
     unit: "match points"
     description: Weighted normalized score produced from trusted hidden evaluation.
-  tiebreakers:
-    - id: declared_tiebreakers
-      title: "Head-to-head points, then fixed-field score, then lower timeout rate."
-      direction: higher-is-better
-      unit: task-specific raw metrics
-      description: Applied in the order documented by the private verifier.
+  tiebreakers: []
   qualification_checks:
     - bot-protocol
   tie_tolerance: 0.001

@@ -7,7 +7,7 @@ Implemented evidence:
 - deterministic trusted runner and task-native candidate protocol;
 - hidden cases spanning multiple seeds and difficulty levels;
 - private positive reference plus malformed and plausible failing mutants;
-- private measurements for: bot-protocol, fixed-opponent-field, cross-agent-tournament, reliability;
+- private measurements for native protocol qualification, the actual trusted hidden objective, and review-report presence;
 - evaluator-generated numerical and visual evidence;
 - repeatable calibration ordering and fail-closed protocol handling;
 - end-to-end prepare, seal, reproduce, verify, and review-packet smoke coverage.

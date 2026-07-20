@@ -1,9 +1,15 @@
 #!/usr/bin/env python3
 """Exercise prepare -> seal -> reproduce -> trusted verify for every visual arena."""
+# ruff: noqa: E501 - embedded shell command strings mirror the documented interface.
 
 from __future__ import annotations
-import json, shutil, stat, time
+
+import json
+import shutil
+import stat
+import time
 from pathlib import Path
+
 from paper_repro_eval.lifecycle import reproduce_run, seal_run
 from paper_repro_eval.materialize import prepare_suite
 from paper_repro_eval.repository import Repository

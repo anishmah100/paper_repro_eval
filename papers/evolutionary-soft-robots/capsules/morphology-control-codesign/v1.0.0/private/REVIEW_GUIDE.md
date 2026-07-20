@@ -11,5 +11,5 @@ Review the evaluator-generated canonical artifacts before the candidate-selected
 - Does REPORT.md distinguish measured evidence from interpretation?
 - Is the result useful to learn from even if it loses?
 
-Primary metric: Robust locomotion score. Declared tiebreaks: Higher unseen-terrain distance, then lower energy.
+Primary metric: Terrain-conditioned co-design proxy quality. Scores within the declared tolerance remain tied.
 Record qualitative conclusions in NOTES.md; do not manufacture an LLM-judge score.

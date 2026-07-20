@@ -22,9 +22,11 @@ capsule:
     - "visual/interactive"
     - "competitive score"
   fidelity:
-    level: faithful-scale-reduced
+    level: proxy
     rationale: >-
-      The transfers and constitutive updates are reproduced on smaller real-time two-dimensional scenes.
+      A compact particle dynamics kernel tests deterministic material-conditioned trajectory reproduction.
+    transfer_argument: >-
+      The proxy preserves particle state, material-dependent behavior, stability, hidden initial conditions, trajectory comparison, and visual replay, but not full MLS-MPM transfers.
     limitations:
       - The compact local arena does not reproduce the source paper's largest experiments.
       - This local calibration does not establish that the private reference is globally optimal.
@@ -36,18 +38,13 @@ competition:
   mode: independent-score
   primary_metric:
     id: objective_score
-    title: "Physical fidelity and scene coverage"
+    title: "Hidden material-trajectory fidelity"
     direction: higher-is-better
     unit: "normalized fidelity"
     description: Weighted normalized score produced from trusted hidden evaluation.
-  tiebreakers:
-    - id: declared_tiebreakers
-      title: "Higher hardest-material level, then simulation throughput."
-      direction: higher-is-better
-      unit: task-specific raw metrics
-      description: Applied in the order documented by the private verifier.
+  tiebreakers: []
   qualification_checks:
     - simulation-validity
   tie_tolerance: 0.001
   winner_rule: >-
-    Highest qualifying physical-fidelity score across hidden material scenes wins.
+    Highest qualifying full-trajectory fidelity across hidden material scenes wins.

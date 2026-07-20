@@ -23,9 +23,11 @@ capsule:
     - "visual/interactive"
     - "competitive score"
   fidelity:
-    level: full-fidelity
+    level: proxy
     rationale: >-
-      The upstream MuJoCo model procedurally generates the evaluated linked-pole systems.
+      A compact deterministic cart/multi-pole kernel tests persistent feedback control across hidden dynamics.
+    transfer_argument: >-
+      The proxy preserves coupled unstable control, changing system dimension, disturbances, deadlines, and visual rollouts.
     limitations:
       - The compact local arena does not reproduce the source paper's largest experiments.
       - This local calibration does not establish that the private reference is globally optimal.
@@ -37,18 +39,13 @@ competition:
   mode: independent-score
   primary_metric:
     id: objective_score
-    title: "Robust multi-pole return"
+    title: "Compact multi-pole survival quality"
     direction: higher-is-better
     unit: "normalized return"
     description: Weighted normalized score produced from trusted hidden evaluation.
-  tiebreakers:
-    - id: declared_tiebreakers
-      title: "Higher hardest-level success, then lower control energy."
-      direction: higher-is-better
-      unit: task-specific raw metrics
-      description: Applied in the order documented by the private verifier.
+  tiebreakers: []
   qualification_checks:
     - agent-protocol
   tie_tolerance: 0.001
   winner_rule: >-
-    Highest qualifying aggregate return across the hidden control ladder wins.
+    Highest qualifying survival-and-uprightness score across hidden compact dynamics wins.

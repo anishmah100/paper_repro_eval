@@ -1,36 +1,18 @@
 schema_version: 1
 checks:
   - id: scene-validity
-    title: "Produces a valid portable scene"
+    title: "Native recovery command and primitive scene are valid"
     kind: objective
     weight: 0.1
     depends_on: []
-  - id: observed-view-fit
-    title: "Matches supplied observations"
+  - id: hidden-rerender-quality
+    title: "Trusted observed and held-out rerender quality"
     kind: objective
-    weight: 0.2
-    depends_on:
-      - scene-validity
-  - id: heldout-view-quality
-    title: "Reconstructs hidden camera views"
-    kind: objective
-    weight: 0.4
-    depends_on:
-      - scene-validity
-  - id: geometry-and-consistency
-    title: "Recovers coherent geometry and materials"
-    kind: objective
-    weight: 0.2
-    depends_on:
-      - scene-validity
-  - id: recovery-efficiency
-    title: "Uses the evaluation budget efficiently"
-    kind: objective
-    weight: 0.1
+    weight: 0.9
     depends_on:
       - scene-validity
   - id: review-artifacts
-    title: Human-review evidence is complete
+    title: "Human-review report is present"
     kind: diagnostic
     weight: 0
     depends_on: []

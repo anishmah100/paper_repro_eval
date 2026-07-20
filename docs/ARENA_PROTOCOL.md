@@ -4,15 +4,17 @@ Every visual arena is an ordinary paper-reproduction capsule with one extra prop
 verifier emits a continuous `objective-score`, so qualifying submissions can be ranked rather than
 only passed or failed.
 
-The prepared workspace exposes `TASK.md`, paper material, resources, starter code, and an empty
-`submission/` directory. Private cases, reference implementations, calibration mutants, and score
+The prepared workspace exposes `WORK_PLAN.md`, `EXECUTABLE_CONTRACT.md`, `TASK.md`, native
+assistant instruction files, paper material, resources, starter code, and an empty `submission/`
+directory. Private cases, reference implementations, calibration mutants, and score
 code are never copied. Each model receives a separately initialized Git repository containing an
 identical public tree. Models may use the network and any tools available to their native coding
 assistant, but must never inspect another model's run directory.
 
 ## Candidate contract
 
-Each task defines one command under `submission/`. Batch tasks consume a public or hidden JSON case
+Each task defines one authoritative scored protocol in `EXECUTABLE_CONTRACT.md` and one command under
+`submission/`. Batch tasks consume a public or hidden JSON case
 and write machine-readable state plus a PNG or GIF replay. Interactive tasks use newline-delimited
 JSON over standard input and output. Randomness is seeded. Candidate output is treated as a claim:
 the trusted verifier reconstructs or simulates the result wherever practical.
@@ -22,8 +24,7 @@ the trusted verifier reconstructs or simulates the result wherever practical.
 Scores lie in `[0, 1]`; higher is better. A separate qualification check covers buildability,
 protocol conformance, finite values, and required evidence. Scientific metrics are normalized
 against an intentionally weak baseline and a private reference frontier. Geometric aggregation
-prevents one excellent scene from hiding a catastrophic one. Exact metric definitions and tie
-breakers live in each `TASK.md`; hidden cases vary geometry, seeds, and nuisance parameters without
+prevents one excellent scene from hiding a catastrophic one. Exact metric definitions and the scored fidelity boundary live in each `EXECUTABLE_CONTRACT.md`; hidden cases vary geometry, seeds, and nuisance parameters without
 changing the stated problem.
 
 ## Evidence and review

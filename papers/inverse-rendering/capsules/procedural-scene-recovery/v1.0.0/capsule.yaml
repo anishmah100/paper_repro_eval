@@ -24,9 +24,9 @@ capsule:
   fidelity:
     level: proxy
     rationale: >-
-      Compact procedural scenes test differentiable or search-based recovery of geometry, materials, lighting, and cameras.
+      Compact colored-primitive scenes test multi-view parameter recovery and held-out rerendering.
     transfer_argument: >-
-      Compact procedural scenes test differentiable or search-based recovery of geometry, materials, lighting, and cameras.
+      Compact colored-primitive scenes test multi-view parameter recovery and held-out rerendering.
     limitations:
       - The compact local arena does not reproduce the source paper's largest experiments.
       - This local calibration does not establish that the private reference is globally optimal.
@@ -42,12 +42,7 @@ competition:
     direction: higher-is-better
     unit: "normalized image quality"
     description: Weighted normalized score produced from trusted hidden evaluation.
-  tiebreakers:
-    - id: declared_tiebreakers
-      title: "Lower scene complexity, then faster recovery."
-      direction: higher-is-better
-      unit: task-specific raw metrics
-      description: Applied in the order documented by the private verifier.
+  tiebreakers: []
   qualification_checks:
     - scene-validity
   tie_tolerance: 0.001

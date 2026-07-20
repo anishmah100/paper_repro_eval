@@ -38,18 +38,13 @@ competition:
   mode: independent-score
   primary_metric:
     id: objective_score
-    title: "Robust target-match score"
+    title: "Compact smoke target-match quality"
     direction: higher-is-better
     unit: "normalized similarity"
     description: Weighted normalized score produced from trusted hidden evaluation.
-  tiebreakers:
-    - id: declared_tiebreakers
-      title: "Lower control energy, then faster optimization."
-      direction: higher-is-better
-      unit: task-specific raw metrics
-      description: Applied in the order documented by the private verifier.
+  tiebreakers: []
   qualification_checks:
     - control-format
   tie_tolerance: 0.001
   winner_rule: >-
-    Highest qualifying target-match score under hidden perturbations wins.
+    Highest qualifying final-density target overlap across hidden compact cases wins.

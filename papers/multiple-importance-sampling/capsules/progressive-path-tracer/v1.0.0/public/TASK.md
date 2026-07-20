@@ -1,5 +1,9 @@
 # Progressive Competitive Path Tracer
 
+> **Read `EXECUTABLE_CONTRACT.md` first.** It defines the exact v1 process protocol, JSON schema,
+> scored behavior, and fidelity boundary. The broader paper-oriented goals below describe valuable
+> educational extensions; they do not override the compact executable contract.
+
 Implement a C++ path tracer and display its progressive output through the supplied OpenGL shell.
 The central reproduction is multiple importance sampling using complementary light and BSDF
 sampling. Public code and libraries are allowed; another candidate's output is not.
@@ -27,12 +31,9 @@ termination policy, acceleration structure, validation, and known bias.
 
 ## Executable contract (v1.0.0)
 
-The trusted harness invokes the task-native command and artifact interface defined above; it does
-not substitute a generic solver API. Use `resources/visible-case.json` and the public arena kit for
-development. Native entry-point scripts are supplied in `starter/` and the sealed submission must
-be self-contained. Persistent agents receive JSON records one line at a time.
-
-Three deterministic undisclosed seeds increase geometry or control difficulty. The verifier
-reconstructs claimed metrics with trusted dynamics, preserves per-case JSON and PNG evidence, and
-takes the geometric mean of quality. Malformed, non-finite, missing, or protocol-invalid results
-score zero. Hidden cases change only fields represented by the visible schema.
+`EXECUTABLE_CONTRACT.md` is authoritative for commands, fields, deadlines, scored measurements,
+and what is or is not mechanically verified. Use `resources/visible-case.json`, `starter/`, and
+`arena_kit/` for development. The sealed `submission/` must be self-contained. Three deterministic
+hidden seeds vary only fields represented by the public schema. The verifier preserves per-case JSON
+and PNG evidence, geometrically aggregates quality, and assigns zero to malformed, non-finite,
+missing, failed, timed-out, or protocol-invalid results.

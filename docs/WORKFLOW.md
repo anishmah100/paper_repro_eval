@@ -8,8 +8,9 @@ Validate and prepare a suite:
     paper_repro_eval suites validate synthetic-smoke
     paper_repro_eval prepare synthetic-smoke -a grok-4.5 -a gpt-5.6
 
-Each row prints a run ID and workspace. Open the corresponding coding assistant in only that
-workspace and say, for example: “Do the assigned task.” The task itself explains required outputs:
+Each row prints a run ID and workspace. Open the generated launch sheet, then open the corresponding coding assistant in only that
+workspace and use its exact one-line prompt. Each workspace contains WORK_PLAN.md,
+EXECUTABLE_CONTRACT.md, AGENTS.md, and CLAUDE.md. The task itself explains required outputs:
 submission/reproduce.sh, submission/REPORT.md, and any capsule-specific source or demo.
 
 Attempts live beneath runs/SUITE/papers/PAPER/capsules/CAPSULE/agents/AGENT. Each workspace receives
@@ -35,7 +36,7 @@ unchanged submission is idempotent; a changed one creates another immutable revi
 ## Competitive suites
 
 Competitive capsule manifests declare qualification checks, a primary metric, tie tolerance,
-tiebreakers, and winner semantics. `paper_repro_eval report SUITE` writes both the complete audit
+tie tolerance and winner semantics. `paper_repro_eval report SUITE` writes both the complete audit
 table and `LEADERBOARD.md`. The leaderboard uses the latest attempt for each agent and ranks only
 runs that passed every declared qualification check.
 

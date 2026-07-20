@@ -1,36 +1,18 @@
 schema_version: 1
 checks:
   - id: simulation-validity
-    title: "Runs stably and emits replay state"
+    title: "Native simulation command and trajectory are valid"
     kind: objective
     weight: 0.1
     depends_on: []
-  - id: transfer-and-invariants
-    title: "Implements consistent transfers and core invariants"
+  - id: hidden-trajectory-quality
+    title: "Trusted hidden full-trajectory fidelity"
     kind: objective
-    weight: 0.25
-    depends_on:
-      - simulation-validity
-  - id: hidden-scene-fidelity
-    title: "Matches trusted trajectories on hidden scenes"
-    kind: objective
-    weight: 0.4
-    depends_on:
-      - transfer-and-invariants
-  - id: material-frontier
-    title: "Supports progressively harder constitutive behavior"
-    kind: objective
-    weight: 0.15
-    depends_on:
-      - transfer-and-invariants
-  - id: throughput
-    title: "Advances particles efficiently"
-    kind: objective
-    weight: 0.1
+    weight: 0.9
     depends_on:
       - simulation-validity
   - id: review-artifacts
-    title: Human-review evidence is complete
+    title: "Human-review report is present"
     kind: diagnostic
     weight: 0
     depends_on: []

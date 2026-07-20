@@ -16,6 +16,7 @@ def repository(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Repository:
     root.mkdir()
     shutil.copytree(PROJECT_ROOT / "papers", root / "papers")
     shutil.copytree(PROJECT_ROOT / "suites", root / "suites")
+    shutil.copytree(PROJECT_ROOT / "templates", root / "templates")
     shutil.copy2(PROJECT_ROOT / "REVIEWING.md", root / "REVIEWING.md")
     shutil.copy2(PROJECT_ROOT / "pyproject.toml", root / "pyproject.toml")
     git_home = tmp_path / "git-home"

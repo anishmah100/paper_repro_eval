@@ -40,14 +40,9 @@ competition:
     direction: higher-is-better
     unit: "normalized quality"
     description: Weighted normalized score produced from trusted hidden evaluation.
-  tiebreakers:
-    - id: declared_tiebreakers
-      title: "Boundary residual, then runtime."
-      direction: higher-is-better
-      unit: task-specific raw metrics
-      description: Applied in the order documented by the private verifier.
+  tiebreakers: []
   qualification_checks:
     - build-and-artifacts
   tie_tolerance: 0.001
   winner_rule: >-
-    Highest qualifying hidden-case quality wins; boundary residual and runtime break ties.
+    Highest qualifying hidden-case quality wins; scores within the declared tolerance remain tied.

@@ -1,36 +1,18 @@
 schema_version: 1
 checks:
   - id: solver-validity
-    title: "Emits a connected finite density design"
+    title: "Native layout command and density grid are valid"
     kind: objective
     weight: 0.1
     depends_on: []
-  - id: fea-correctness
-    title: "Matches trusted finite-element responses"
+  - id: hidden-layout-quality
+    title: "Trusted hidden connectivity, alignment, and volume quality"
     kind: objective
-    weight: 0.2
-    depends_on:
-      - solver-validity
-  - id: hidden-compliance
-    title: "Achieves low compliance under material budget"
-    kind: objective
-    weight: 0.4
-    depends_on:
-      - fea-correctness
-  - id: robust-design
-    title: "Survives hidden load and support changes"
-    kind: objective
-    weight: 0.2
-    depends_on:
-      - fea-correctness
-  - id: optimization-efficiency
-    title: "Converges efficiently"
-    kind: objective
-    weight: 0.1
+    weight: 0.9
     depends_on:
       - solver-validity
   - id: review-artifacts
-    title: Human-review evidence is complete
+    title: "Human-review report is present"
     kind: diagnostic
     weight: 0
     depends_on: []

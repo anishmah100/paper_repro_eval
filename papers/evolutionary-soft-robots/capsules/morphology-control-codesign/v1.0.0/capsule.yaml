@@ -24,9 +24,9 @@ capsule:
   fidelity:
     level: proxy
     rationale: >-
-      A compact two-dimensional voxel simulator preserves coupled morphology/controller optimization and terrain interaction.
+      A compact connected-voxel and terrain-conditioned oscillator objective tests morphology/controller parameter co-design.
     transfer_argument: >-
-      A compact two-dimensional voxel simulator preserves coupled morphology/controller optimization and terrain interaction.
+      A compact connected-voxel and terrain-conditioned oscillator objective tests morphology/controller parameter co-design.
     limitations:
       - The compact local arena does not reproduce the source paper's largest experiments.
       - This local calibration does not establish that the private reference is globally optimal.
@@ -38,18 +38,13 @@ competition:
   mode: independent-score
   primary_metric:
     id: objective_score
-    title: "Robust locomotion score"
+    title: "Terrain-conditioned co-design proxy quality"
     direction: higher-is-better
     unit: "normalized distance-energy score"
     description: Weighted normalized score produced from trusted hidden evaluation.
-  tiebreakers:
-    - id: declared_tiebreakers
-      title: "Higher unseen-terrain distance, then lower energy."
-      direction: higher-is-better
-      unit: task-specific raw metrics
-      description: Applied in the order documented by the private verifier.
+  tiebreakers: []
   qualification_checks:
     - design-validity
   tie_tolerance: 0.001
   winner_rule: >-
-    Highest qualifying robust locomotion score across hidden terrains wins.
+    Highest qualifying terrain-conditioned morphology/oscillator proxy score wins.

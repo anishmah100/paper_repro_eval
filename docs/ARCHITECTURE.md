@@ -18,7 +18,7 @@ repository for every capsule/agent/attempt. Runtime state mirrors scientific own
     runs/SUITE/papers/PAPER/capsules/CAPSULE/agents/AGENT/attempt-NNN/
 
 Paper files are copied to workspace/paper and workspace/paper_resources. Capsule task material is
-copied to TASK.md, resources/, and starter/. No candidate sees private checks, hidden inputs,
+copied to WORK_PLAN.md, EXECUTABLE_CONTRACT.md, TASK.md, resources/, and starter/. No candidate sees private checks, hidden inputs,
 references, or another model's output.
 
 The lifecycle is:

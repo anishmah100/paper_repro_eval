@@ -28,6 +28,7 @@ from .catalog import (
     validate_registry,
 )
 from .errors import PaperReproEvalError
+from .handoff import latest_prepared_records, write_launch_sheet
 from .lifecycle import reproduce_run, seal_run
 from .materialize import prepare_suite
 from .repository import Repository, discover_repository
@@ -172,6 +173,18 @@ def prepare(
             record.workspace,
         )
     console.print(table)
+    console.print(f"[green]Launch sheet:[/green] {write_launch_sheet(_repo(), records)}")
+
+
+@app.command("launch-sheet")
+def launch_sheet(
+    suite_id: Annotated[str, typer.Argument(help="Suite ID")],
+    agent: Annotated[
+        list[str] | None, typer.Option("--agent", "-a", help="Limit to named agents")
+    ] = None,
+) -> None:
+    records = latest_prepared_records(_repo(), suite_id, set(agent or []) or None)
+    console.print(write_launch_sheet(_repo(), records))
 
 
 @app.command("path")

@@ -23,6 +23,12 @@ def test_prepare_makes_identical_physical_independent_repositories(
     assert not second.is_symlink()
     assert not (first / "private").exists()
     assert not (first / "checks.yaml").exists()
+    assert (first / "AGENTS.md").is_file()
+    assert (first / "CLAUDE.md").is_file()
+    assert (first / "WORK_PLAN.md").is_file()
+    assert (first / "EXECUTABLE_CONTRACT.md").is_file()
+    assert "only local project" in (first / "WORK_PLAN.md").read_text(encoding="utf-8")
+    assert (first / "arena_kit" / "arena_kit.py").is_file()
     assert (first / "submission").is_dir()
     relative = first.relative_to(repository.root)
     assert relative.parts[:8] == (

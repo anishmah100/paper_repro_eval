@@ -11,5 +11,5 @@ Review the evaluator-generated canonical artifacts before the candidate-selected
 - Does REPORT.md distinguish measured evidence from interpretation?
 - Is the result useful to learn from even if it loses?
 
-Primary metric: Cross-agent tournament score. Declared tiebreaks: Head-to-head points, then fixed-field score, then lower timeout rate.
+Primary metric: Cross-agent tournament score. Scores within the declared tolerance remain tied.
 Record qualitative conclusions in NOTES.md; do not manufacture an LLM-judge score.

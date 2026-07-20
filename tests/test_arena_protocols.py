@@ -40,7 +40,10 @@ def test_every_arena_exposes_its_task_native_entrypoint(
     resolved = resolve_capsule(repository, paper, capsule, "1.0.0")
     assert (resolved.public_dir / "starter" / script).is_file()
     task = (resolved.public_dir / "TASK.md").read_text(encoding="utf-8")
+    contract = (resolved.public_dir / "EXECUTABLE_CONTRACT.md").read_text(encoding="utf-8")
     assert script in task
+    assert script in contract
+    assert "score" in contract.lower()
 
 
 @pytest.mark.parametrize(
@@ -92,3 +95,42 @@ def test_continuous_check_status_matches_framework_schema() -> None:
         "failed",
         "passed",
     ]
+
+
+@pytest.mark.parametrize(
+    ("task", "metrics"),
+    [
+        ("poisson", {"quality": 0.0, "mse": float("inf")}),
+        ("mpm", {"quality": 0.0, "invalid": 1}),
+        ("world_mpc", {"quality": 0.0, "protocol_errors": 1, "timeouts": 0}),
+        ("lightcycle", {"quality": 0.0, "illegal": 1, "timeouts": 0}),
+        ("lightcycle", {"quality": 0.0, "illegal": 0, "timeouts": 1}),
+    ],
+)
+def test_invalid_measurements_fail_qualification(task: str, metrics: dict[str, float]) -> None:
+    assert not arena_verifier.measurements_valid(task, metrics)
+
+
+def test_valid_but_low_quality_measurements_can_still_qualify() -> None:
+    assert arena_verifier.measurements_valid("topology", {"quality": 0.0, "connectivity": 0.0})
+
+
+def test_inverse_rendering_scores_genuinely_heldout_views() -> None:
+    case = kit.case("inverse_render", 73, 2)
+    assert set(case["views"]).isdisjoint(case["heldout_views"])
+    public_case = dict(case)
+    public_case.pop("truth")
+    assert "truth" not in public_case
+    metrics = kit.score("inverse_render", case, {"objects": case["truth"]})
+    assert metrics["observed_mse"] == 0
+    assert metrics["heldout_mse"] == 0
+
+
+def test_softrobot_objective_changes_with_hidden_terrain() -> None:
+    first = kit.case("softrobot", 11, 1)
+    second = kit.case("softrobot", 29, 3)
+    candidate = kit.baseline("softrobot", first)
+    first_metrics = kit.score("softrobot", first, candidate)
+    second_metrics = kit.score("softrobot", second, candidate)
+    assert first_metrics["target_frequency"] != second_metrics["target_frequency"]
+    assert first_metrics["quality"] != second_metrics["quality"]

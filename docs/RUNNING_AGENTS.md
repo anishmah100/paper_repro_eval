@@ -47,12 +47,23 @@ separate Git repository initialized from the same public tree. Paper material an
 task data are copied automatically. Private cases, verifiers, references, calibration mutants, and
 other candidates' outputs are not copied.
 
-Save the printed run IDs. They can always be recovered with:
+`prepare` also prints a generated launch-sheet path containing the exact run IDs, workspaces, enter
+commands, and one-line prompt. Save it. Run IDs can also be recovered with:
 
 ```bash
 uv run paper_repro_eval status
 uv run paper_repro_eval path RUN_ID
 ```
+
+If needed, regenerate a pristine handoff sheet for selected labels:
+
+```bash
+uv run paper_repro_eval launch-sheet visual-research-arcade-v0 \
+  -a grok-4.5-run1 -a fable-run1 -a gpt-5.6-run1
+```
+
+Regeneration deliberately fails if a latest workspace has already changed or contains a prefilled
+submission; prepare a fresh attempt rather than presenting a modified workspace as pristine.
 
 The directory hierarchy is:
 
@@ -77,18 +88,17 @@ change into that path, and launch the normal assistant command, for example `cod
 
 A sufficient initial prompt is:
 
-> Read TASK.md and complete the assigned task autonomously. Produce all required files under
-> submission/ and verify the result as thoroughly as you can.
+> Read WORK_PLAN.md, EXECUTABLE_CONTRACT.md, and TASK.md, then complete the task autonomously.
 
 Do not give the model hidden verifier details, another model's result, or advice derived from a
 previous candidate. Otherwise, let it work normally. Searching online, finding an existing
 implementation, installing packages, writing its own tests, and using any native agent feature are
 all legitimate capabilities in this evaluation.
 
-The assistant should read `TASK.md`, `paper/`, `paper_resources/`, `resources/`, `starter/`, and
-`arena_kit/`. It should place its final portable artifact in `submission/`. Every task requires
+The assistant should read `WORK_PLAN.md`, `EXECUTABLE_CONTRACT.md`, `TASK.md`, `paper/`,
+`paper_resources/`, `resources/`, `starter/`, and `arena_kit/`. It should place its final portable artifact in `submission/`. Every task requires
 `submission/reproduce.sh` and `submission/REPORT.md`, plus the task-native entrypoint named in
-`TASK.md`. A demo is required where the task says so and strongly preferred everywhere.
+`EXECUTABLE_CONTRACT.md`. A demo is required where the task says so and strongly preferred everywhere.
 
 If the model asks a genuine product-use question, answer naturally. If it asks for another model's
 output, decline. Do not silently fix its code before evaluation. If you want to collaborate after
@@ -129,7 +139,7 @@ uv run paper_repro_eval report visual-research-arcade-v0
 
 The command writes machine-readable JSON/CSV, a Markdown audit table, an HTML report, and
 `LEADERBOARD.md` under `reports/visual-research-arcade-v0/`. Rankings use only qualifying results,
-the capsule's declared primary metric, tie tolerance, and tiebreakers. Raw component measurements
+the capsule's declared primary metric, tie tolerance, and winner rule. Raw component measurements
 remain in each verification record; the normalized objective score should not replace them in the
 final analysis.
 
@@ -197,14 +207,14 @@ the sealed artifact satisfies the task and whether its report accurately explain
 | Arena | Look for first | Quantitative cross-check |
 |---|---|---|
 | Poisson editing | seams, color bleeding, mask-boundary halos | interior guidance error and boundary residual |
-| Multi-pole control | stable recovery across pole counts, not one lucky episode | survival, angle RMS, perturbation robustness |
-| Path tracing | fireflies, structured noise, biased dark/bright regions | equal-budget error, variance, valid samples |
-| MLS-MPM | plausible material separation, no explosions or tunneling | trajectory RMSE, invariants, throughput |
-| World-model MPC | landing/docking behavior under perturbed starts | terminal distance, effort, protocol errors |
-| Topology optimization | connected load paths without gray fog or checkerboards | compliance, volume, robustness |
+| Multi-pole control | stable compact trajectories across pole counts | survival and angle RMS |
+| Rendering proxy | silhouettes, colors, shading, and light placement | hidden-scene image MSE |
+| Material trajectory proxy | stable particle identity and plausible motion | full-trajectory RMSE |
+| Landing-control proxy | path, overshoot, and target arrival | terminal distance, effort, protocol errors |
+| Structural-layout proxy | connected support-to-load paths without islands | connectivity, alignment, volume |
 | Lightcycle | spatial planning, traps, side symmetry, legal timely moves | paired points, interval, errors/timeouts |
-| Inverse smoke | coherent transport into the target rather than painted density | target loss, control energy, constraint violations |
-| Soft-robot co-design | repeatable locomotion rather than unstable flinging | robust distance, energy, morphology validity |
+| Inverse-smoke proxy | coherent transport into the target rather than broad blur | final target overlap |
+| Soft-robot co-design proxy | connected morphology, span, and parameter sensitivity | terrain-conditioned proxy quality |
 | Inverse rendering | multi-view agreement rather than one matched camera | held-out-view error and parameter recovery |
 
 ## 9. Qualitative and educational notes

@@ -1,17 +1,24 @@
 """Generic trusted evaluator for the deterministic visual arenas."""
 
 from __future__ import annotations
-import argparse, json, os, subprocess, sys, time
+
+import argparse
+import json
+import math
+import os
+import subprocess
+import sys
+import time
 from pathlib import Path
 from typing import Any
+
 import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "templates" / "arena_kit"))
 import arena_kit as kit  # noqa: E402
-
-import trusted_poisson
-import control_verifier
+import control_verifier  # noqa: E402
+import trusted_poisson  # noqa: E402
 
 NATIVE_BATCH = {
     "poisson": ("run_case.sh", True),
@@ -57,9 +64,26 @@ def invoke(
         elapsed = time.monotonic() - start
         if p.returncode or not out.is_file():
             return None, f"exit={p.returncode}; stderr={p.stderr[-600:]}", elapsed
-        return json.loads(out.read_text()), "", elapsed
+        value = json.loads(out.read_text())
+        if not isinstance(value, dict):
+            return None, "candidate output must be a JSON object", elapsed
+        return value, "", elapsed
     except Exception as exc:
         return None, str(exc), time.monotonic() - start
+
+
+def measurements_valid(task: str, metrics: dict[str, Any]) -> bool:
+    """Return whether measurements represent a protocol-valid, finite candidate result."""
+    if metrics.get("error") or metrics.get("invalid"):
+        return False
+    if task in {"multipole", "world_mpc"} and (
+        metrics.get("protocol_errors") or metrics.get("timeouts")
+    ):
+        return False
+    if task == "lightcycle" and (metrics.get("illegal") or metrics.get("timeouts")):
+        return False
+    numeric = [value for value in metrics.values() if isinstance(value, (int, float))]
+    return all(math.isfinite(float(value)) for value in numeric)
 
 
 def lightcycle_quality(
@@ -169,7 +193,7 @@ def lightcycle_quality(
 
 
 def result(
-    cid: str, score: float, summary: str, measure: dict[str, Any], evidence: list[str] = []
+    cid: str, score: float, summary: str, measure: dict[str, Any], evidence: list[str] | None = None
 ) -> dict[str, Any]:
     score = max(0, min(1, score))
     status = "passed" if score == 1 else ("failed" if score == 0 else "partial")
@@ -179,7 +203,7 @@ def result(
         "score": score,
         "summary": summary,
         "measurements": measure,
-        "evidence": evidence,
+        "evidence": evidence or [],
     }
 
 
@@ -215,10 +239,12 @@ def main() -> None:
             q, m = control_verifier.quality(a.task, sub, c)
             out = {"controller": "interactive"}
             err = ""
+            successful = successful and measurements_valid(a.task, m)
         elif a.task == "lightcycle":
             q, m = lightcycle_quality(sub, c, ev)
             out = {"policy": "interactive"}
             err = ""
+            successful = successful and measurements_valid(a.task, m)
         else:
             out, err, sec = invoke(a.task, sub, cp, op)
             elapsed += sec
@@ -234,6 +260,7 @@ def main() -> None:
                     else kit.score(a.task, c, out)
                 )
                 q = float(m.get("quality", 0))
+                successful = successful and measurements_valid(a.task, m)
                 kit.render(a.task, c, out, pp)
         qualities.append(q)
         details.append({"case": item["name"], "quality": q, **m})

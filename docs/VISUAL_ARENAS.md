@@ -8,19 +8,20 @@ information flow is one candidate reading another candidate's workspace or outpu
 All entries are **benchmark-ready**: task-native protocols, hidden fixtures, private references,
 failing mutants, deterministic calibration, lifecycle smoke tests, and visual review packets are
 implemented. They are not independently audited. See the [calibration record](CALIBRATION.md) and
-[operating guide](RUNNING_AGENTS.md) before running comparisons.
+[operating guide](RUNNING_AGENTS.md) before running comparisons. Read the
+[detailed task catalog](TASK_CATALOG.md) for each capsule's exact proxy boundary.
 
 | Priority | Arena | Capsule | Visual result | Primary competitive signal | Intended frontier |
 |---:|---|---|---|---|---|
-| 1 | Multi-pole control | dm-control-suite/multipole-control | synchronized MuJoCo episodes | robust return across pole counts | floor through ceiling |
+| 1 | Multi-pole control | dm-control-suite/multipole-control | compact cart/pole trajectories | survival and pole-angle quality | floor through ceiling |
 | 2 | Poisson editing | poisson-image-editing/competitive-editing | image grids and seam heatmaps | hidden-case reconstruction quality | floor |
-| 3 | Path tracing | multiple-importance-sampling/progressive-path-tracer | equal-time canonical renders | quality/variance at fixed budget | middle through hard |
-| 4 | Topology optimization | topology-optimization/robust-structure-design | evolving density and stress fields | robust compliance under constraints | middle through ceiling |
+| 3 | Rendering reconstruction | multiple-importance-sampling/progressive-path-tracer | hidden procedural renders | hidden-scene image quality | floor |
+| 4 | Structural layout | topology-optimization/robust-structure-design | density and load-path fields | connectivity/alignment under volume | middle through hard |
 | 5 | Lightcycle tournament | lightcycle-agents/adversarial-tournament | direct bot match replays | tournament points and rating | floor through ceiling |
-| 6 | Inverse smoke control | stable-fluids/inverse-smoke-control | controlled smoke trajectories | target match under energy budget | hard/open-ended |
-| 7 | Offline world-model control | differentiable-world-model-mpc/visual-offline-control | rocket landing/docking trajectories | realized robust control score | hard |
-| 8 | MLS-MPM simulation | mls-mpm/multimaterial-simulator | elastic, fluid, and snow scenes | physical fidelity plus throughput | hard |
-| 9 | Soft-robot co-design | evolutionary-soft-robots/morphology-control-codesign | evolved locomotion replays | robust distance/energy score | open-ended |
+| 6 | Inverse smoke control | stable-fluids/inverse-smoke-control | target/density overlays | final target overlap | hard/open-ended |
+| 7 | Landing-control proxy | differentiable-world-model-mpc/visual-offline-control | point-mass target trajectories | terminal distance and effort | hard |
+| 8 | Material trajectory proxy | mls-mpm/multimaterial-simulator | jelly/water/snow particle replays | full-trajectory fidelity | floor through middle |
+| 9 | Soft-robot co-design proxy | evolutionary-soft-robots/morphology-control-codesign | morphology and parameter plots | terrain-conditioned proxy quality | middle |
 | 10 | Procedural inverse rendering | inverse-rendering/procedural-scene-recovery | target/reconstruction camera orbits | held-out-view image quality | open-ended |
 
 ## Work states
@@ -46,7 +47,7 @@ layer was built before the task-specific engines. The arenas were then onboarded
 2. Topology optimization and path tracing for continuous visual leaderboards.
 3. Lightcycle for head-to-head tournament orchestration.
 4. Inverse smoke and world-model control for research optimization.
-5. MLS-MPM, soft robots, and inverse rendering as ceiling arenas.
+5. Material-trajectory, co-design, and inverse-rendering proxies as initial ceiling hypotheses.
 
 No future task should be promoted merely because it launches. Promotion requires a reference,
 hidden cases, score calibration, and evidence that visually impressive invalid solutions cannot

@@ -1,36 +1,18 @@
 schema_version: 1
 checks:
   - id: design-validity
-    title: "Produces a valid connected morphology and controller"
+    title: "Native design command and connected morphology are valid"
     kind: objective
     weight: 0.1
     depends_on: []
-  - id: nominal-locomotion
-    title: "Moves effectively on visible terrain"
+  - id: hidden-codesign-quality
+    title: "Trusted hidden terrain-conditioned co-design quality"
     kind: objective
-    weight: 0.3
-    depends_on:
-      - design-validity
-  - id: hidden-terrain-performance
-    title: "Traverses unseen terrains"
-    kind: objective
-    weight: 0.35
-    depends_on:
-      - design-validity
-  - id: robustness
-    title: "Handles material and actuator perturbations"
-    kind: objective
-    weight: 0.15
-    depends_on:
-      - design-validity
-  - id: energy-and-complexity
-    title: "Uses energy and morphology economically"
-    kind: objective
-    weight: 0.1
+    weight: 0.9
     depends_on:
       - design-validity
   - id: review-artifacts
-    title: Human-review evidence is complete
+    title: "Human-review report is present"
     kind: diagnostic
     weight: 0
     depends_on: []

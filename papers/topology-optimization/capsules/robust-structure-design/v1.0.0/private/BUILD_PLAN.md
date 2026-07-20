@@ -7,7 +7,7 @@ Implemented evidence:
 - deterministic trusted runner and task-native candidate protocol;
 - hidden cases spanning multiple seeds and difficulty levels;
 - private positive reference plus malformed and plausible failing mutants;
-- private measurements for: solver-validity, fea-correctness, hidden-compliance, robust-design, optimization-efficiency;
+- private measurements for native protocol qualification, the actual trusted hidden objective, and review-report presence;
 - evaluator-generated numerical and visual evidence;
 - repeatable calibration ordering and fail-closed protocol handling;
 - end-to-end prepare, seal, reproduce, verify, and review-packet smoke coverage.
@@ -18,4 +18,4 @@ Residual limitations:
 - the private reference is a calibration frontier, not a proof of global optimality;
 - independent audit remains required before changing the status to audited.
 
-Winner rule: Highest feasible robust structural score across hidden load cases wins.
+Winner rule: Highest feasible connectivity-and-load-alignment score across hidden cases wins.

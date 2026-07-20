@@ -11,5 +11,5 @@ Review the evaluator-generated canonical artifacts before the candidate-selected
 - Does REPORT.md distinguish measured evidence from interpretation?
 - Is the result useful to learn from even if it loses?
 
-Primary metric: Hidden editing quality. Declared tiebreaks: Boundary residual, then runtime.
+Primary metric: Hidden editing quality. Scores within the declared tolerance remain tied.
 Record qualitative conclusions in NOTES.md; do not manufacture an LLM-judge score.

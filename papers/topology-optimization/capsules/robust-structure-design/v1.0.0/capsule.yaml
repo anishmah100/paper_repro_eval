@@ -23,9 +23,11 @@ capsule:
     - "visual/interactive"
     - "competitive score"
   fidelity:
-    level: faithful-scale-reduced
+    level: proxy
     rationale: >-
-      The SIMP finite-element objective and constraints are reproduced on compact grids with additional held-out loads.
+      A compact density-grid objective tests connected constrained load-path design under hidden loads.
+    transfer_argument: >-
+      The proxy preserves spatial material allocation, connectivity, load alignment, volume constraints, hidden cases, and visual inspection, but not finite-element compliance.
     limitations:
       - The compact local arena does not reproduce the source paper's largest experiments.
       - This local calibration does not establish that the private reference is globally optimal.
@@ -37,18 +39,13 @@ competition:
   mode: independent-score
   primary_metric:
     id: objective_score
-    title: "Robust constrained compliance"
+    title: "Connected constrained load-path quality"
     direction: higher-is-better
     unit: "normalized structural score"
     description: Weighted normalized score produced from trusted hidden evaluation.
-  tiebreakers:
-    - id: declared_tiebreakers
-      title: "Lower worst-case compliance, then faster solve."
-      direction: higher-is-better
-      unit: task-specific raw metrics
-      description: Applied in the order documented by the private verifier.
+  tiebreakers: []
   qualification_checks:
     - solver-validity
   tie_tolerance: 0.001
   winner_rule: >-
-    Highest feasible robust structural score across hidden load cases wins.
+    Highest feasible connectivity-and-load-alignment score across hidden cases wins.

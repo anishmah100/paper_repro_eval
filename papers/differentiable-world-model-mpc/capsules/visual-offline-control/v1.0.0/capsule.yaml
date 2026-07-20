@@ -24,9 +24,9 @@ capsule:
   fidelity:
     level: proxy
     rationale: >-
-      The paper's inference-time differentiable planning mechanism is tested on a compact visual control system.
+      A compact point-mass landing kernel tests realized persistent control under hidden initial states and dynamics.
     transfer_argument: >-
-      The paper's inference-time differentiable planning mechanism is tested on a compact visual control system.
+      A compact point-mass landing kernel tests realized persistent control under hidden initial states and dynamics.
     limitations:
       - The compact local arena does not reproduce the source paper's largest experiments.
       - This local calibration does not establish that the private reference is globally optimal.
@@ -42,14 +42,9 @@ competition:
     direction: higher-is-better
     unit: "normalized return"
     description: Weighted normalized score produced from trusted hidden evaluation.
-  tiebreakers:
-    - id: declared_tiebreakers
-      title: "Higher landing/docking success, then lower fuel use."
-      direction: higher-is-better
-      unit: task-specific raw metrics
-      description: Applied in the order documented by the private verifier.
+  tiebreakers: []
   qualification_checks:
     - controller-validity
   tie_tolerance: 0.001
   winner_rule: >-
-    Highest qualifying realized return on hidden true dynamics wins.
+    Highest qualifying target-distance and action-efficiency score on hidden compact dynamics wins.

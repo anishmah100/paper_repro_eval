@@ -1,36 +1,18 @@
 schema_version: 1
 checks:
   - id: build-and-artifacts
-    title: "Builds and emits canonical artifacts"
+    title: "Native command and canonical artifacts are valid"
     kind: objective
     weight: 0.1
     depends_on: []
-  - id: pde-correctness
-    title: "Satisfies the discrete Poisson system"
+  - id: hidden-poisson-quality
+    title: "Trusted hidden Poisson reconstruction quality"
     kind: objective
-    weight: 0.25
-    depends_on:
-      - build-and-artifacts
-  - id: hidden-edit-quality
-    title: "Reconstructs hidden editing cases"
-    kind: objective
-    weight: 0.5
-    depends_on:
-      - pde-correctness
-  - id: edge-case-robustness
-    title: "Handles difficult mask topology and boundaries"
-    kind: objective
-    weight: 0.1
-    depends_on:
-      - pde-correctness
-  - id: efficiency
-    title: "Completes cases efficiently"
-    kind: objective
-    weight: 0.05
+    weight: 0.9
     depends_on:
       - build-and-artifacts
   - id: review-artifacts
-    title: Human-review evidence is complete
+    title: "Human-review report is present"
     kind: diagnostic
     weight: 0
     depends_on: []

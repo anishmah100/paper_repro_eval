@@ -26,14 +26,14 @@ protocol calibration is in `calibrate_interactive.py`. All scores are normalized
 | Task | Malformed | Plausible mutant | Public baseline | Private frontier | Frontier headroom |
 |---|---:|---:|---:|---:|---:|
 | Poisson editing | 0.0000 | 0.3192 | 0.8732 | 1.0000 | 0.1268 |
-| Multi-pole proxy | 0.0000 | 0.0345 | 0.0484 | 0.1052 | 0.0567 |
-| Path tracing | 0.0000 | 0.0000 | 0.6087 | 1.0000 | 0.3913 |
+| Multi-pole proxy | 0.0000 | 0.0345 | 0.0678 | 0.1052 | 0.0373 |
+| Procedural rendering proxy | 0.0000 | 0.0000 | 0.6704 | 1.0000 | 0.3296 |
 | MLS-MPM | 0.0000 | 0.0000 | 0.6333 | 1.0000 | 0.3667 |
 | World-MPC proxy | 0.0000 | 0.0079 | 0.4447 | 0.9867 | 0.5420 |
 | Topology optimization | 0.0000 | 0.0000 | 0.3029 | 0.6913 | 0.3885 |
 | Inverse smoke | 0.0000 | 0.0584 | 0.0584 | 0.3061 | 0.2477 |
-| Soft-robot co-design | 0.0000 | 0.0000 | 0.5239 | 0.8167 | 0.2927 |
-| Inverse rendering | 0.0000 | 0.0119 | 0.6479 | 0.9418 | 0.2939 |
+| Soft-robot co-design | 0.0000 | 0.0000 | 0.6974 | 0.7160 | 0.0186 |
+| Inverse rendering | 0.0000 | 0.0082 | 0.6249 | 0.9418 | 0.3169 |
 
 Every private frontier was bitwise repeatable in the calibration run, exceeded the public baseline
 by at least the declared margin, and exceeded the plausible mutant by at least the declared margin.
@@ -42,13 +42,13 @@ the weak public baseline; both remain well below the positive reference.
 
 ## Persistent protocol calibration
 
-| Task | Failing mutant | Public baseline | Private frontier/reference | Headroom |
+| Task | Comparator or invalid mutant | Public baseline | Private frontier/reference | Headroom |
 |---|---:|---:|---:|---:|
-| Multi-pole control | zero controller: 0.0632 | 0.0328 | 0.0761 | 0.0433 |
+| Multi-pole control | zero controller: 0.0632 | 0.0641 | 0.0761 | 0.0120 |
 | World-model MPC | zero controller: 0.0028 | 0.6082 | 0.9593 | 0.3511 |
 | Lightcycle fixed field | illegal/timeout bots: 0.0000 | 0.4375 | 0.4375 | n/a |
 
-The multi-pole frontier improves both survival and angle RMS over the public baseline. The
+The multi-pole frontier matches the public baseline survival and improves its angle RMS. The
 world-model frontier reaches near-zero terminal distance while respecting the bounded-action
 protocol. Both report zero protocol errors and timeouts.
 

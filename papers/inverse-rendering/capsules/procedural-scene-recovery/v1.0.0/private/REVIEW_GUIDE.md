@@ -11,5 +11,5 @@ Review the evaluator-generated canonical artifacts before the candidate-selected
 - Does REPORT.md distinguish measured evidence from interpretation?
 - Is the result useful to learn from even if it loses?
 
-Primary metric: Held-out-view reconstruction quality. Declared tiebreaks: Lower scene complexity, then faster recovery.
+Primary metric: Held-out-view reconstruction quality. Scores within the declared tolerance remain tied.
 Record qualitative conclusions in NOTES.md; do not manufacture an LLM-judge score.
