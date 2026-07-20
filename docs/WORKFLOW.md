@@ -24,6 +24,11 @@ When the assistant finishes:
 Read SUMMARY.md, the candidate report, artifacts, evidence, review guide, and source. Write your
 own conclusions in NOTES.md. curate RUN_ID copies the packet into the long-term learning tree.
 
+For the ten visual arenas, follow the detailed [agent-running, visualization, trust-audit, and
+qualitative-analysis procedure](RUNNING_AGENTS.md). It includes native Codex/Claude-style launch
+instructions, filtered side-by-side galleries, direct Lightcycle tournaments, and an arena-specific
+visual checklist.
+
 Runs and lifecycle revisions are append-only. Preparing again creates a new attempt. Sealing an
 unchanged submission is idempotent; a changed one creates another immutable revision.
 
@@ -34,7 +39,8 @@ tiebreakers, and winner semantics. `paper_repro_eval report SUITE` writes both t
 table and `LEADERBOARD.md`. The leaderboard uses the latest attempt for each agent and ranks only
 runs that passed every declared qualification check.
 
-Draft suites may be materialized for development and pilot calibration, but their scores are not
-benchmark claims. Before promotion, finish the private build plan, passing reference, mutants,
-hidden cases, repeatability study, and human packet review described in
-[the competition contract](COMPETITIONS.md).
+The visual arcade is benchmark-ready but not independently audited. Its local reference/mutant
+evidence is recorded in [the calibration record](CALIBRATION.md). New draft suites may still be
+materialized for development, but their scores are not benchmark claims. Before promotion, finish
+the private build plan, passing reference, mutants, hidden cases, repeatability study, and human
+packet review described in [the competition contract](COMPETITIONS.md).

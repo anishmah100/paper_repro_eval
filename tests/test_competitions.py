@@ -6,13 +6,13 @@ from paper_repro_eval.materialize import prepare_suite
 from paper_repro_eval.repository import Repository
 
 
-def test_visual_arcade_registers_ten_competitive_draft_capsules(
+def test_visual_arcade_registers_ten_competitive_ready_capsules(
     repository: Repository,
 ) -> None:
     suite, resolved = resolve_suite(repository, "visual-research-arcade-v0")
     assert len(suite.capsules) == 10
     assert len(resolved) == 10
-    assert all(capsule.manifest.status == "draft" for capsule in resolved)
+    assert all(capsule.manifest.status == "benchmark-ready" for capsule in resolved)
     assert all(capsule.manifest.competition is not None for capsule in resolved)
     assert all(len((capsule.public_dir / "TASK.md").read_text()) > 1000 for capsule in resolved)
     assert len(validate_registry(repository)) == 11

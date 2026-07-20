@@ -18,5 +18,5 @@ domains:
 capsules:
   - id: inverse-smoke-control
     version: 1.0.0
-    status: draft
+    status: benchmark-ready
     path: capsules/inverse-smoke-control/v1.0.0

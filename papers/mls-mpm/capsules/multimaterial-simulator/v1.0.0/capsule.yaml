@@ -1,7 +1,7 @@
 schema_version: 1
 id: multimaterial-simulator
 version: 1.0.0
-status: draft
+status: benchmark-ready
 paper_id: mls-mpm
 capsule:
   title: "Competitive Multi-Material MLS-MPM Simulator"
@@ -27,7 +27,7 @@ capsule:
       The transfers and constitutive updates are reproduced on smaller real-time two-dimensional scenes.
     limitations:
       - The compact local arena does not reproduce the source paper's largest experiments.
-      - Difficulty and score weights require pilot calibration before promotion.
+      - This local calibration does not establish that the private reference is globally optimal.
 submission:
   reproduce: submission/reproduce.sh
   report: submission/REPORT.md

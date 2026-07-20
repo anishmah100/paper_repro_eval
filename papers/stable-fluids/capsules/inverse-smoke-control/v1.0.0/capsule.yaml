@@ -1,7 +1,7 @@
 schema_version: 1
 id: inverse-smoke-control
 version: 1.0.0
-status: draft
+status: benchmark-ready
 paper_id: stable-fluids
 capsule:
   title: "Inverse Smoke-Control Research Challenge"
@@ -29,7 +29,7 @@ capsule:
       The stable semi-Lagrangian fluid mechanism is fixed while agents optimize compact control sequences.
     limitations:
       - The compact local arena does not reproduce the source paper's largest experiments.
-      - Difficulty and score weights require pilot calibration before promotion.
+      - This local calibration does not establish that the private reference is globally optimal.
 submission:
   reproduce: submission/reproduce.sh
   report: submission/REPORT.md

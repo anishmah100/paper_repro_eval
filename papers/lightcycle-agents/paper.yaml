@@ -18,5 +18,5 @@ domains:
 capsules:
   - id: adversarial-tournament
     version: 1.0.0
-    status: draft
+    status: benchmark-ready
     path: capsules/adversarial-tournament/v1.0.0

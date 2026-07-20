@@ -1,7 +1,7 @@
 schema_version: 1
 id: visual-offline-control
 version: 1.0.0
-status: draft
+status: benchmark-ready
 paper_id: differentiable-world-model-mpc
 capsule:
   title: "Visual Offline World-Model Control"
@@ -29,7 +29,7 @@ capsule:
       The paper's inference-time differentiable planning mechanism is tested on a compact visual control system.
     limitations:
       - The compact local arena does not reproduce the source paper's largest experiments.
-      - Difficulty and score weights require pilot calibration before promotion.
+      - This local calibration does not establish that the private reference is globally optimal.
 submission:
   reproduce: submission/reproduce.sh
   report: submission/REPORT.md

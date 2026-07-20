@@ -1,7 +1,7 @@
 schema_version: 1
 id: robust-structure-design
 version: 1.0.0
-status: draft
+status: benchmark-ready
 paper_id: topology-optimization
 capsule:
   title: "Robust Topology-Optimization Challenge"
@@ -28,7 +28,7 @@ capsule:
       The SIMP finite-element objective and constraints are reproduced on compact grids with additional held-out loads.
     limitations:
       - The compact local arena does not reproduce the source paper's largest experiments.
-      - Difficulty and score weights require pilot calibration before promotion.
+      - This local calibration does not establish that the private reference is globally optimal.
 submission:
   reproduce: submission/reproduce.sh
   report: submission/REPORT.md

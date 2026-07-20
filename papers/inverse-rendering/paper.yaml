@@ -20,5 +20,5 @@ domains:
 capsules:
   - id: procedural-scene-recovery
     version: 1.0.0
-    status: draft
+    status: benchmark-ready
     path: capsules/procedural-scene-recovery/v1.0.0

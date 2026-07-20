@@ -22,5 +22,5 @@ domains:
 capsules:
   - id: morphology-control-codesign
     version: 1.0.0
-    status: draft
+    status: benchmark-ready
     path: capsules/morphology-control-codesign/v1.0.0

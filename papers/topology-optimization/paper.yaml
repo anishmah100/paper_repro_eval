@@ -20,5 +20,5 @@ domains:
 capsules:
   - id: robust-structure-design
     version: 1.0.0
-    status: draft
+    status: benchmark-ready
     path: capsules/robust-structure-design/v1.0.0

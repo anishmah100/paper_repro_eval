@@ -19,5 +19,5 @@ domains:
 capsules:
   - id: progressive-path-tracer
     version: 1.0.0
-    status: draft
+    status: benchmark-ready
     path: capsules/progressive-path-tracer/v1.0.0

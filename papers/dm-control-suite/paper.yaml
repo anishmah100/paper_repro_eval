@@ -28,5 +28,5 @@ domains:
 capsules:
   - id: multipole-control
     version: 1.0.0
-    status: draft
+    status: benchmark-ready
     path: capsules/multipole-control/v1.0.0

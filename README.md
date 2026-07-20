@@ -31,9 +31,9 @@ uv run paper_repro_eval suites validate synthetic-smoke
 uv run paper_repro_eval prepare synthetic-smoke -a model-a -a model-b
 ```
 
-See [workflow](docs/WORKFLOW.md), [architecture](docs/ARCHITECTURE.md), and
-[CLI reference](docs/CLI.md). The included synthetic suite validates the harness before real paper
-capsules are onboarded.
+See the [agent-running and review guide](docs/RUNNING_AGENTS.md), [workflow](docs/WORKFLOW.md),
+[architecture](docs/ARCHITECTURE.md), and [CLI reference](docs/CLI.md). The included synthetic suite
+validates the harness independently of the visual arenas.
 
 ## Development setup
 
@@ -48,13 +48,16 @@ The installed console command is always `paper_repro_eval`.
 
 ## Visual Research Arcade
 
-The draft first-round catalog contains ten competitive, visually verifiable research arenas across
-graphics, control, simulation, games, applied mathematics, and ML. Start with the
-[arena index](docs/VISUAL_ARENAS.md) and [competition contract](docs/COMPETITIONS.md).
+The benchmark-ready first-round catalog contains ten competitive, visually verifiable research
+arenas across graphics, control, simulation, games, applied mathematics, and ML. Start with the
+[arena index](docs/VISUAL_ARENAS.md), [calibration record](docs/CALIBRATION.md), and
+[competition contract](docs/COMPETITIONS.md).
 
 ```bash
 uv run paper_repro_eval suites validate visual-research-arcade-v0
 uv run paper_repro_eval prepare visual-research-arcade-v0 -a model-a -a model-b
 ```
 
-These capsules are task-development pilots until their manifests are promoted from `draft`.
+The capsules have passed local calibration and end-to-end lifecycle smoke tests but have not been
+independently audited. Follow the [complete operating procedure](docs/RUNNING_AGENTS.md) before
+interpreting or presenting model comparisons.

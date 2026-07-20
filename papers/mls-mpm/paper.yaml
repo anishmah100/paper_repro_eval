@@ -24,5 +24,5 @@ domains:
 capsules:
   - id: multimaterial-simulator
     version: 1.0.0
-    status: draft
+    status: benchmark-ready
     path: capsules/multimaterial-simulator/v1.0.0

@@ -2,9 +2,9 @@ schema_version: 1
 id: visual-research-arcade-v0
 title: Visual Research Arcade — design and calibration suite
 description: >-
-  Draft first-round suite of competitive, visually verifiable research tasks. It is safe to
-  materialize for task-development pilots, but results are not benchmark claims until each capsule
-  is promoted to benchmark-ready after reference and mutant calibration.
+  Benchmark-ready first-round suite of competitive, visually verifiable research tasks. Each capsule
+  has passed native-protocol smoke tests, deterministic reference and mutant calibration, hidden-case
+  verification, and review-packet generation; none is independently audited.
 capsules:
   - paper_id: poisson-image-editing
     capsule_id: competitive-editing

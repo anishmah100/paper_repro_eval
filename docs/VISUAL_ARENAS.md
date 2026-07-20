@@ -5,9 +5,10 @@ is designed to be inspectable by watching or manipulating the result and rankabl
 score. Internet use, public code, and normal assistant tools are allowed. The only forbidden
 information flow is one candidate reading another candidate's workspace or output.
 
-All entries are currently **draft**: their scientific and competitive contracts are specified, but
-private references, hidden fixtures, and calibrated verifiers must be completed before benchmark
-claims are made.
+All entries are **benchmark-ready**: task-native protocols, hidden fixtures, private references,
+failing mutants, deterministic calibration, lifecycle smoke tests, and visual review packets are
+implemented. They are not independently audited. See the [calibration record](CALIBRATION.md) and
+[operating guide](RUNNING_AGENTS.md) before running comparisons.
 
 | Priority | Arena | Capsule | Visual result | Primary competitive signal | Intended frontier |
 |---:|---|---|---|---|---|
@@ -36,10 +37,10 @@ Use these states in planning notes:
 The manifests deliberately use the framework's formal status values: draft, benchmark-ready,
 audited, deprecated. This index supplies the more granular authoring state.
 
-## Shared implementation order
+## Implementation history
 
-Build common deterministic replay, offscreen rendering, artifact capture, and score serialization
-before task-specific engines. Then onboard in this order:
+The common deterministic replay, offscreen rendering, artifact capture, and score serialization
+layer was built before the task-specific engines. The arenas were then onboarded in this order:
 
 1. Poisson editing and multi-pole control for end-to-end plumbing.
 2. Topology optimization and path tracing for continuous visual leaderboards.
@@ -47,5 +48,6 @@ before task-specific engines. Then onboard in this order:
 4. Inverse smoke and world-model control for research optimization.
 5. MLS-MPM, soft robots, and inverse rendering as ceiling arenas.
 
-No task should be promoted merely because it launches. Promotion requires a reference, hidden
-cases, score calibration, and evidence that visually impressive invalid solutions cannot win.
+No future task should be promoted merely because it launches. Promotion requires a reference,
+hidden cases, score calibration, and evidence that visually impressive invalid solutions cannot
+win. The current arenas passed that local gate; `audited` remains reserved for independent review.
