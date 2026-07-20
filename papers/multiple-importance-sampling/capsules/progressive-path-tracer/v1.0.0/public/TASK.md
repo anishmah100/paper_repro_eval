@@ -24,3 +24,15 @@ sample or time budget, and feature flags from the scene file. Provide a CMake bu
 Required artifacts include equal-time PNG/EXR renders, variance or error heatmaps, a canonical scene
 orbit, and raw timing/sample counts. REPORT.md must explain the estimator, PDFs and MIS weights,
 termination policy, acceleration structure, validation, and known bias.
+
+## Executable contract (v1.0.0)
+
+The trusted harness invokes the task-native command and artifact interface defined above; it does
+not substitute a generic solver API. Use `resources/visible-case.json` and the public arena kit for
+development. Native entry-point scripts are supplied in `starter/` and the sealed submission must
+be self-contained. Persistent agents receive JSON records one line at a time.
+
+Three deterministic undisclosed seeds increase geometry or control difficulty. The verifier
+reconstructs claimed metrics with trusted dynamics, preserves per-case JSON and PNG evidence, and
+takes the geometric mean of quality. Malformed, non-finite, missing, or protocol-invalid results
+score zero. Hidden cases change only fields represented by the visible schema.

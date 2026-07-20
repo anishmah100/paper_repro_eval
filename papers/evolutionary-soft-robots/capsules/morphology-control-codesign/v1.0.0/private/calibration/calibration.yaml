@@ -1,0 +1,7 @@
+schema_version: 1
+arena: softrobot
+ordering:
+  - malformed-output
+  - public-baseline
+  - private-frontier
+notes: Hidden seeds differ from public development seeds. Promotion requires this strict ordering.

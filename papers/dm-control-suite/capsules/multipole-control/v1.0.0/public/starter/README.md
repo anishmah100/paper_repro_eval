@@ -1,8 +1,14 @@
-# Starter infrastructure placeholder
+# Executable starter: multipole
 
-The benchmark author will place only non-substantive infrastructure here: deterministic fixture
-loading, display/offscreen capture, replay serialization, and the candidate protocol. The candidate
-must implement the research algorithm described in TASK.md.
+This directory contains a deliberately weak public baseline. The prepared workspace also contains
+`arena_kit/arena_kit.py`: deterministic fixture generation, public dynamics, scoring diagnostics,
+and PNG rendering. You may copy or modify it without restriction.
 
-This capsule is draft. Do not treat the absence of starter engine code as an agent failure during
-benchmark development.
+Batch arenas expose `python solve.py INPUT.json OUTPUT.json`. Lightcycle instead exposes a persistent
+`python bot.py` process using one JSON request and response per line. The required result schema is:
+`gains: 2+2N finite controller gains`.
+
+The sealed `submission/` must be self-contained. It must include `reproduce.sh`, `REPORT.md`, the
+candidate entry point, and any vendored runtime code. `reproduce.sh` writes `result.json`,
+`metrics.json`, and `preview.png` under `$REPRO_OUTPUT_DIR`. Start by running the baseline on
+`../resources/visible-case.json`; replace the research method, not the protocol.

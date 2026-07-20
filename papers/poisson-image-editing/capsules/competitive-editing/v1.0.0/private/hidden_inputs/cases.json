@@ -1,0 +1,17 @@
+[
+  {
+    "name": "hidden-a",
+    "seed": 7101,
+    "difficulty": 1
+  },
+  {
+    "name": "hidden-b",
+    "seed": 7102,
+    "difficulty": 2
+  },
+  {
+    "name": "hidden-c",
+    "seed": 7103,
+    "difficulty": 3
+  }
+]

@@ -29,6 +29,12 @@ dev = [
   "types-pyyaml>=6.0",
   "ruff>=0.9",
 ]
+arena = [
+  "matplotlib>=3.9",
+  "numpy>=1.26",
+  "pillow>=11",
+  "scipy>=1.13",
+]
 
 [project.scripts]
 paper_repro_eval = "paper_repro_eval.cli:main"

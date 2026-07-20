@@ -21,3 +21,15 @@ The showcase should include an elastic drop, dam-break or jelly scene, plastic s
 and the hardest implemented interaction. REPORT.md must state the equations, transfer scheme,
 constitutive models, timestep/stability choices, collision treatment, validation, and unsupported
 paper features.
+
+## Executable contract (v1.0.0)
+
+The trusted harness invokes the task-native command and artifact interface defined above; it does
+not substitute a generic solver API. Use `resources/visible-case.json` and the public arena kit for
+development. Native entry-point scripts are supplied in `starter/` and the sealed submission must
+be self-contained. Persistent agents receive JSON records one line at a time.
+
+Three deterministic undisclosed seeds increase geometry or control difficulty. The verifier
+reconstructs claimed metrics with trusted dynamics, preserves per-case JSON and PNG evidence, and
+takes the geometric mean of quality. Malformed, non-finite, missing, or protocol-invalid results
+score zero. Hidden cases change only fields represented by the visible schema.

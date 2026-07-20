@@ -41,6 +41,8 @@ def _materialize_public(capsule: ResolvedCapsule, workspace: Path) -> None:
     shutil.copy2(capsule.public_dir / "TASK.md", workspace / "TASK.md")
     _copy_or_create(capsule.paper.materials_dir, workspace / "paper")
     _copy_or_create(capsule.paper.resources_dir, workspace / "paper_resources")
+    repository_root = capsule.paper.paper_dir.parent.parent
+    _copy_or_create(repository_root / "templates" / "arena_kit", workspace / "arena_kit")
     for source_name, destination_name in CAPSULE_PUBLIC_MAPPINGS.items():
         _copy_or_create(
             capsule.public_dir / source_name,
