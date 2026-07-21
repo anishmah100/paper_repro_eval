@@ -27,12 +27,13 @@ The framework separates:
 
 ```bash
 uv sync --extra dev --extra arena
-uv run paper_repro_eval work grok-4.5-run1
+uv run paper_repro_eval
 ```
 
-The second command prepares the visual suite on first use, shows a numbered task menu, opens the
-selected workspace, and offers to evaluate it when the workspace shell closes. Run the same command
-again to resume or choose another task. No run IDs or launch sheets are required for ordinary use.
+The second command is the human dashboard. It discovers or creates the model label, prepares the
+visual suite on first use, shows numbered model/task menus, opens the selected workspace, and offers
+to evaluate it when the workspace shell closes. Run the same command again to resume or choose
+another task. No names, run IDs, task aliases, or launch sheets must be remembered.
 
 See the [human system guide](docs/HUMAN_GUIDE.md), [task catalog](docs/TASK_CATALOG.md),
 [agent-running and review guide](docs/RUNNING_AGENTS.md), [architecture](docs/ARCHITECTURE.md),
@@ -59,7 +60,7 @@ arenas across graphics, control, simulation, games, applied mathematics, and ML.
 
 ```bash
 uv run paper_repro_eval suites validate visual-research-arcade-v0
-uv run paper_repro_eval work model-a
+uv run paper_repro_eval
 ```
 
 The capsules have passed local calibration and end-to-end lifecycle smoke tests but have not been

@@ -40,7 +40,11 @@ from .tournament import run_lightcycle_tournament
 from .util import dump_yaml, load_yaml, slugify
 from .verification import verify_run
 
-app = typer.Typer(no_args_is_help=True, pretty_exceptions_enable=False)
+app = typer.Typer(
+    invoke_without_command=True,
+    no_args_is_help=False,
+    pretty_exceptions_enable=False,
+)
 papers_app = typer.Typer(no_args_is_help=True)
 capsules_app = typer.Typer(no_args_is_help=True)
 suites_app = typer.Typer(no_args_is_help=True)
@@ -113,6 +117,41 @@ def _latest_agent_runs(
             + ", ".join(missing)
         )
     return ordered
+
+
+def _choose_agent(repository: Repository, suite_id: str, agent: str | None) -> str:
+    if agent is not None:
+        return agent
+
+    def human_label(label: str) -> bool:
+        normalized = slugify(label)
+        return (
+            "smoke" not in normalized
+            and not normalized.startswith("unit-test")
+            and not normalized.startswith("tournament-")
+        )
+
+    labels = sorted(
+        {
+            run.record.agent
+            for run in list_runs(repository)
+            if run.record.suite_id == suite_id and human_label(run.record.agent)
+        }
+    )
+    if not labels:
+        return str(typer.prompt("Name this model or condition", default="grok"))
+    if len(labels) == 1:
+        console.print(f"[cyan]Using model:[/cyan] {labels[0]}")
+        return labels[0]
+
+    table = Table("#", "Model / condition")
+    for index, label in enumerate(labels, 1):
+        table.add_row(str(index), label)
+    console.print(table)
+    choice = str(typer.prompt("Choose a model number, or enter a new label"))
+    if choice.isdigit() and 1 <= int(choice) <= len(labels):
+        return labels[int(choice) - 1]
+    return choice
 
 
 def _choose_work_run(rows: list[tuple[str, StoredRun]], task: str | None) -> StoredRun:
@@ -312,7 +351,10 @@ def enter(
 
 @app.command()
 def work(
-    agent: Annotated[str, typer.Argument(help="Short stable label, for example grok-4.5-run1")],
+    agent: Annotated[
+        str | None,
+        typer.Argument(help="Optional model label; omit it to choose or create one interactively"),
+    ] = None,
     task: Annotated[
         str | None,
         typer.Argument(help="Optional task number or shortcut such as inverse, mpc, or poisson"),
@@ -326,6 +368,7 @@ def work(
 ) -> None:
     """Prepare, choose, enter, resume, and optionally evaluate without handling run IDs."""
     repository = _repo()
+    agent = _choose_agent(repository, suite, agent)
     rows = _latest_agent_runs(repository, suite, agent)
     run = _choose_work_run(rows, task)
     record = run.record
@@ -348,6 +391,20 @@ def work(
         console.print(
             f"[cyan]Saved. Resume anytime with:[/cyan] "
             f"paper_repro_eval work {agent} {record.capsule_id}"
+        )
+
+
+@app.callback()
+def dashboard(context: typer.Context) -> None:
+    """Open the human dashboard when no advanced subcommand is supplied."""
+    if context.invoked_subcommand is None:
+        work(
+            agent=None,
+            task=None,
+            suite=DEFAULT_WORK_SUITE,
+            timeout=300,
+            image="python:3.12-slim",
+            shell="zsh",
         )
 
 

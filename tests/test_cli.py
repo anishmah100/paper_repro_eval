@@ -30,6 +30,17 @@ def test_cli_help_names_the_command_surface() -> None:
     assert "author" in result.stdout
 
 
+def test_bare_command_opens_the_human_dashboard(monkeypatch) -> None:
+    opened: list[bool] = []
+    monkeypatch.setattr(
+        "paper_repro_eval.cli.work",
+        lambda **kwargs: opened.append(kwargs["agent"] is None),
+    )
+    result = CliRunner().invoke(app, [])
+    assert result.exit_code == 0, result.stdout
+    assert opened == [True]
+
+
 def test_prepare_prints_a_regenerable_pristine_launch_sheet(
     repository: Repository, monkeypatch
 ) -> None:

@@ -223,11 +223,11 @@ Before access to candidate agents:
 
 When access arrives:
 
-1. run `paper_repro_eval work AGENT`;
-2. choose a task number and launch the assistant in the shell that opens;
+1. run `paper_repro_eval` with no arguments;
+2. choose model and task numbers when prompted, then launch the assistant in the shell that opens;
 3. use the one-line prompt printed by the command;
 4. exit the workspace shell and accept the evaluation prompt;
-5. rerun the same `work` command to resume or choose another task;
+5. rerun the same bare command to resume or choose another task;
 6. preserve the candidate's first complete attempt before offering help;
 7. build the report, filtered gallery, and Lightcycle tournament;
 8. write qualitative notes using hidden evidence and the capsule guide;

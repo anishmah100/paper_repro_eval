@@ -16,15 +16,17 @@ For normal use, stay at the repository root and run:
 
 ```bash
 uv sync --extra dev --extra arena
-uv run paper_repro_eval work grok-4.5-run1
+uv run paper_repro_eval
 ```
 
-On first use, `work` automatically prepares all ten isolated Grok workspaces. It shows a numbered
-menu, opens the selected task's shell, prints the exact agent prompt, and asks whether to evaluate
-when that shell closes. Run the same command again whenever you want to resume or select another
-task. Closing the terminal does not lose anything.
+On first use, the dashboard asks for a model/condition label and automatically prepares all ten
+isolated workspaces. Later it remembers existing labels, using the only one automatically or showing
+a numbered model menu when several exist. It then shows a numbered task menu, opens the selected
+task's shell, prints the exact agent prompt, and asks whether to evaluate when that shell closes.
+Run the same bare command again whenever you want to resume or select another task. Closing the
+terminal does not lose anything.
 
-You can skip the menu with a short task name:
+Advanced users can skip the menus with a model label and short task name:
 
 ```bash
 uv run paper_repro_eval work grok-4.5-run1 inverse

@@ -2,6 +2,8 @@
 
 The installed command is paper_repro_eval.
 
+- with no arguments, opens the human dashboard: it discovers or creates model labels, prepares on
+  first use, presents numbered model/task menus, opens or resumes work, and offers evaluation.
 - work AGENT [TASK] is the human-facing default: it prepares on first use, shows a task menu,
   opens or resumes the latest workspace, and offers to evaluate when its shell closes. TASK may be
   a menu number, capsule ID, or short alias such as inverse, multipole, or mpc.
