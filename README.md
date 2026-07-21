@@ -26,10 +26,13 @@ The framework separates:
 ## Quick start
 
 ```bash
-uv sync --extra dev
-uv run paper_repro_eval suites validate synthetic-smoke
-uv run paper_repro_eval prepare synthetic-smoke -a model-a -a model-b
+uv sync --extra dev --extra arena
+uv run paper_repro_eval work grok-4.5-run1
 ```
+
+The second command prepares the visual suite on first use, shows a numbered task menu, opens the
+selected workspace, and offers to evaluate it when the workspace shell closes. Run the same command
+again to resume or choose another task. No run IDs or launch sheets are required for ordinary use.
 
 See the [human system guide](docs/HUMAN_GUIDE.md), [task catalog](docs/TASK_CATALOG.md),
 [agent-running and review guide](docs/RUNNING_AGENTS.md), [architecture](docs/ARCHITECTURE.md),
@@ -56,7 +59,7 @@ arenas across graphics, control, simulation, games, applied mathematics, and ML.
 
 ```bash
 uv run paper_repro_eval suites validate visual-research-arcade-v0
-uv run paper_repro_eval prepare visual-research-arcade-v0 -a model-a -a model-b
+uv run paper_repro_eval work model-a
 ```
 
 The capsules have passed local calibration and end-to-end lifecycle smoke tests but have not been

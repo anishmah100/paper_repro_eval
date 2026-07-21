@@ -223,15 +223,18 @@ Before access to candidate agents:
 
 When access arrives:
 
-1. run one `prepare` command for all labels;
-2. open the generated launch sheet;
-3. launch each assistant only in its listed workspace;
-4. use the one-line prompt from the sheet;
-5. preserve the candidate's first complete attempt before offering help;
-6. run `evaluate` for each completed run ID;
+1. run `paper_repro_eval work AGENT`;
+2. choose a task number and launch the assistant in the shell that opens;
+3. use the one-line prompt printed by the command;
+4. exit the workspace shell and accept the evaluation prompt;
+5. rerun the same `work` command to resume or choose another task;
+6. preserve the candidate's first complete attempt before offering help;
 7. build the report, filtered gallery, and Lightcycle tournament;
 8. write qualitative notes using hidden evidence and the capsule guide;
 9. curate reproductions that are genuinely useful for learning.
+
+The lower-level `prepare`, `status`, `enter`, and `evaluate` commands remain available for
+batch automation and auditing. Ordinary interactive use does not require run IDs.
 
 ## Troubleshooting
 

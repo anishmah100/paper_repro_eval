@@ -10,6 +10,32 @@ The framework does not enforce a one-hour cutoff or score operator interaction. 
 deliberately qualitative parts of the study. Use the same broad expectations for every model and
 record surprising interaction costs in your notes.
 
+## Simplest workflow
+
+For normal use, stay at the repository root and run:
+
+```bash
+uv sync --extra dev --extra arena
+uv run paper_repro_eval work grok-4.5-run1
+```
+
+On first use, `work` automatically prepares all ten isolated Grok workspaces. It shows a numbered
+menu, opens the selected task's shell, prints the exact agent prompt, and asks whether to evaluate
+when that shell closes. Run the same command again whenever you want to resume or select another
+task. Closing the terminal does not lose anything.
+
+You can skip the menu with a short task name:
+
+```bash
+uv run paper_repro_eval work grok-4.5-run1 inverse
+uv run paper_repro_eval work grok-4.5-run1 multipole
+uv run paper_repro_eval work grok-4.5-run1 mpc
+```
+
+Shortcuts are `poisson`, `multipole`, `rendering`, `mpm`, `mpc`, `topology`,
+`lightcycle`, `smoke`, `softrobot`, and `inverse`. The run-ID workflow below remains
+available for batch orchestration and exact audit control, but is not required for day-to-day use.
+
 ## 1. Install and validate once
 
 Run commands from the repository root:
@@ -25,13 +51,13 @@ The `arena` extra supplies the compact numerical and rendering dependencies used
 verifiers. Candidate assistants remain free to choose other dependencies inside their own
 workspaces.
 
-## 2. Choose public, stable agent labels
+## 2. Advanced batch preparation
 
 Labels become directory names and appear in reports. Use labels such as `grok-4.5-run1`,
 `fable-run1`, `gpt-5.6-run1`, `claude-opus-run1`, and `gpt-older-run1`. Do not put account names,
 API keys, machine names, or private notes in a label.
 
-Prepare every capsule for every candidate in one operation:
+For a large multi-model batch, prepare every capsule for every candidate in one operation:
 
 ```bash
 uv run paper_repro_eval prepare visual-research-arcade-v0 \

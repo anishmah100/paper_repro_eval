@@ -2,6 +2,9 @@
 
 The installed command is paper_repro_eval.
 
+- work AGENT [TASK] is the human-facing default: it prepares on first use, shows a task menu,
+  opens or resumes the latest workspace, and offers to evaluate when its shell closes. TASK may be
+  a menu number, capsule ID, or short alias such as inverse, multipole, or mpc.
 - papers list/show/validate inspects paper manifests and shared material.
 - capsules list/show/validate addresses a capsule through paper ID, capsule ID, and version.
 - suites list/show/validate inspects suites.
