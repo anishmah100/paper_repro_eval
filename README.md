@@ -32,8 +32,8 @@ uv run paper_repro_eval
 
 The second command is the human dashboard. It discovers or creates the model label, prepares the
 visual suite on first use, shows numbered model/task menus, opens the selected workspace, and offers
-to evaluate it when the workspace shell closes. Run the same command again to resume or choose
-another task. No names, run IDs, task aliases, or launch sheets must be remembered.
+to evaluate it when the workspace shell closes. It then offers to return to the dashboard so you can
+continue navigating. No names, run IDs, task aliases, or launch sheets must be remembered.
 
 See the [human system guide](docs/HUMAN_GUIDE.md), [task catalog](docs/TASK_CATALOG.md),
 [agent-running and review guide](docs/RUNNING_AGENTS.md), [architecture](docs/ARCHITECTURE.md),

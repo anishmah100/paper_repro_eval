@@ -5,6 +5,12 @@ evaluation, and what a human operator should inspect. For a concise command-by-c
 [Running the visual research evaluation](RUNNING_AGENTS.md). For scientific descriptions of the ten
 current tasks, use the [task catalog](TASK_CATALOG.md).
 
+For ordinary use, run `uv run paper_repro_eval` at the repository root. The dashboard remembers or
+offers model labels, shows numbered model and task menus, opens the exact isolated workspace, and
+offers evaluation when its shell closes. It can return directly to the home screen afterward.
+Everything below explains what that dashboard is doing and how to audit it; the lower-level run-ID
+commands are optional.
+
 ## What the framework is trying to measure
 
 The unit of evaluation is a complete native coding-assistant system, not an isolated language-model
@@ -75,10 +81,16 @@ The private half never enters a candidate workspace. It contains:
 This split lets the candidate understand the complete problem schema without seeing the exact
 instances, implementation frontier, or score-side code used for comparison.
 
-## What `prepare` does
+## What the dashboard and `prepare` do
 
-`paper_repro_eval prepare SUITE -a AGENT...` resolves the suite and creates one physical workspace
-for every capsule/agent pair. It does not use symlinks or shared Git worktrees. For each workspace it:
+The bare dashboard shows existing real model labels in a numbered menu and always includes
+`Create a new model / condition`. If the operator chooses that option, the dashboard asks for a
+label and calls the lower-level preparation operation automatically. It then presents the latest
+attempt for every task in suite order.
+
+The advanced `paper_repro_eval prepare SUITE -a AGENT...` command resolves the suite and creates one
+physical workspace for every capsule/agent pair. It does not use symlinks or shared Git worktrees.
+For each workspace it:
 
 1. copies only public paper and capsule material;
 2. copies the general agent work plan and native assistant instruction files;
@@ -218,7 +230,7 @@ Before access to candidate agents:
 1. install the development and arena dependencies;
 2. validate all manifests and run the repository tests;
 3. read this guide, the task catalog, and the operating runbook;
-4. choose stable, non-sensitive labels for model/condition combinations;
+4. optionally plan stable, non-sensitive labels; the dashboard will prompt when needed;
 5. decide which models will receive autonomous versus interactive attempts.
 
 When access arrives:
@@ -227,20 +239,24 @@ When access arrives:
 2. choose model and task numbers when prompted, then launch the assistant in the shell that opens;
 3. use the one-line prompt printed by the command;
 4. exit the workspace shell and accept the evaluation prompt;
-5. rerun the same bare command to resume or choose another task;
+5. accept the return-to-dashboard prompt to continue navigating models and tasks;
 6. preserve the candidate's first complete attempt before offering help;
 7. build the report, filtered gallery, and Lightcycle tournament;
 8. write qualitative notes using hidden evidence and the capsule guide;
 9. curate reproductions that are genuinely useful for learning.
 
-The lower-level `prepare`, `status`, `enter`, and `evaluate` commands remain available for
-batch automation and auditing. Ordinary interactive use does not require run IDs.
+The dashboard shows prepared models plus the create-new choice before the task menu. It keeps each
+model/task pair isolated and selects only that pair's latest attempt. The
+lower-level `prepare`, `status`, `enter`, and `evaluate` commands remain available for batch
+automation and auditing. Ordinary interactive use does not require labels or run IDs to be
+remembered.
 
 ## Troubleshooting
 
-If `prepare` fails, run capsule and suite validation and confirm `templates/workspace/` and
-`templates/arena_kit/` exist. If launch-sheet generation rejects a workspace, do not repair it
-silently; prepare a fresh attempt or inspect the reported contamination.
+If the dashboard fails during first-use preparation, run capsule and suite validation and confirm
+`templates/workspace/` and `templates/arena_kit/` exist. Advanced users: if launch-sheet generation
+rejects a workspace, do not repair it silently; prepare a fresh attempt or inspect the reported
+contamination.
 
 If reproduction fails but verification can still run, retain both outcomes: packaging and visible
 reproducibility are themselves useful model capabilities. If verification returns evaluator error,

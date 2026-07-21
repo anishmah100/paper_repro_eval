@@ -1,22 +1,40 @@
 # Operator workflow
 
-Inspect paper-level information with papers show PAPER_ID and its capsules with
-capsules list PAPER_ID. Suites use explicit paper/capsule/version references.
+## Normal interactive use
 
-Validate and prepare a suite:
+From the repository root, run:
 
-    paper_repro_eval suites validate synthetic-smoke
-    paper_repro_eval prepare synthetic-smoke -a grok-4.5 -a gpt-5.6
+    uv run paper_repro_eval
 
-Each row prints a run ID and workspace. Open the generated launch sheet, then open the corresponding coding assistant in only that
-workspace and use its exact one-line prompt. Each workspace contains WORK_PLAN.md,
-EXECUTABLE_CONTRACT.md, AGENTS.md, and CLAUDE.md. The task itself explains required outputs:
-submission/reproduce.sh, submission/REPORT.md, and any capsule-specific source or demo.
+This bare command is the human dashboard. On first use it asks for a model/condition label and
+prepares the suite. With existing real models, it shows a numbered model menu whose final choice is
+`Create a new model / condition`. Choosing that option prepares the new model's full isolated suite
+automatically. It then shows the selected model's numbered task menu, including state and attempt,
+and opens the chosen workspace. Internal smoke, unit-test, and tournament labels are hidden.
+
+Launch the normal coding assistant in the shell that opens and use the prompt printed by the
+dashboard. When the assistant finishes, exit its interface and then exit the workspace shell. The
+dashboard offers to seal, reproduce, verify, and create the review packet, then offers to return to
+the model/task home screen. Closing a terminal does not lose the workspace.
+
+No model label, task alias, workspace path, or run ID must be remembered for normal use.
+
+Each workspace contains WORK_PLAN.md, EXECUTABLE_CONTRACT.md, AGENTS.md, and CLAUDE.md. The task
+explains required outputs: submission/reproduce.sh, submission/REPORT.md, and any capsule-specific
+source or demo.
 
 Attempts live beneath runs/SUITE/papers/PAPER/capsules/CAPSULE/agents/AGENT. Each workspace receives
 shared paper material plus only that capsule's public task data.
 
-When the assistant finishes:
+## Advanced batch and audit use
+
+Inspect paper-level information with papers show PAPER_ID and its capsules with capsules list
+PAPER_ID. Suites use explicit paper/capsule/version references. For scripted multi-model setup:
+
+    paper_repro_eval suites validate synthetic-smoke
+    paper_repro_eval prepare synthetic-smoke -a grok-4.5 -a gpt-5.6
+
+The lower-level path, enter, status, and evaluate commands accept persistent run IDs:
 
     paper_repro_eval evaluate RUN_ID
     paper_repro_eval review RUN_ID

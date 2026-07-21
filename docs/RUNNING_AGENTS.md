@@ -20,11 +20,16 @@ uv run paper_repro_eval
 ```
 
 On first use, the dashboard asks for a model/condition label and automatically prepares all ten
-isolated workspaces. Later it remembers existing labels, using the only one automatically or showing
-a numbered model menu when several exist. It then shows a numbered task menu, opens the selected
-task's shell, prints the exact agent prompt, and asks whether to evaluate when that shell closes.
-Run the same bare command again whenever you want to resume or select another task. Closing the
-terminal does not lose anything.
+isolated workspaces. Later it shows existing real labels in a numbered model menu plus a
+`Create a new model / condition` choice. The latter automatically prepares another complete isolated
+environment. It then shows a numbered task menu, opens the selected task's shell, prints the exact
+agent prompt, and asks whether to evaluate when that shell closes. Afterward it offers to return to
+the home screen. Closing the terminal does not lose anything.
+
+Inside the opened shell, launch the ordinary coding-agent command. When the agent finishes, exit
+the agent and then exit the workspace shell; answer `y` to the dashboard's evaluation question.
+The selected model's task menu always uses the latest attempt for that exact model/task pair and
+does not mix candidate outputs. Framework smoke/test labels are hidden.
 
 Advanced users can skip the menus with a model label and short task name:
 
@@ -103,7 +108,7 @@ runs/visual-research-arcade-v0/
 `runs/`, `reports/`, and `learning/` are ignored by the outer repository, so experimental outputs
 are not accidentally published.
 
-## 3. Launch a native assistant in exactly one workspace
+## 3. Advanced manual launch by run ID
 
 For a selected run:
 
@@ -133,7 +138,7 @@ output, decline. Do not silently fix its code before evaluation. If you want to 
 the first result, preserve the first attempt and prepare a new attempt so autonomous and assisted
 results remain distinguishable.
 
-## 4. Evaluate an attempt
+## 4. Advanced manual evaluation by run ID
 
 When the assistant declares completion, return to the framework root and run:
 

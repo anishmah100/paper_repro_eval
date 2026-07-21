@@ -58,3 +58,27 @@ def test_task_catalog_and_exact_contracts_cover_the_entire_visual_suite() -> Non
         assert "EXECUTABLE_CONTRACT.md" in task
     assert "prepared → sealed → reproduced → verified → review-ready" in human_guide
     assert "Public and private halves" in human_guide
+
+
+def test_human_docs_make_the_bare_dashboard_the_primary_workflow() -> None:
+    documents = {
+        name: (ROOT / path).read_text(encoding="utf-8")
+        for name, path in {
+            "readme": "README.md",
+            "workflow": "docs/WORKFLOW.md",
+            "running": "docs/RUNNING_AGENTS.md",
+            "human": "docs/HUMAN_GUIDE.md",
+            "cli": "docs/CLI.md",
+            "architecture": "docs/ARCHITECTURE.md",
+            "isolation": "docs/ISOLATION.md",
+        }.items()
+    }
+    for name in ("readme", "workflow", "running", "human"):
+        assert "uv run paper_repro_eval" in documents[name]
+    for name in ("architecture", "isolation"):
+        assert "dashboard" in documents[name]
+    assert "Create a new model / condition" in documents["workflow"]
+    assert "Create a new model / condition" in documents["running"]
+    assert "Advanced manual launch by run ID" in documents["running"]
+    assert "Advanced manual evaluation by run ID" in documents["running"]
+    assert "Each row prints a run ID and workspace" not in documents["workflow"]

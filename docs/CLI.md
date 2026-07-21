@@ -3,10 +3,11 @@
 The installed command is paper_repro_eval.
 
 - with no arguments, opens the human dashboard: it discovers or creates model labels, prepares on
-  first use, presents numbered model/task menus, opens or resumes work, and offers evaluation.
-- work AGENT [TASK] is the human-facing default: it prepares on first use, shows a task menu,
-  opens or resumes the latest workspace, and offers to evaluate when its shell closes. TASK may be
-  a menu number, capsule ID, or short alias such as inverse, multipole, or mpc.
+  first use, presents numbered model/task menus, opens or resumes the latest exact model/task
+  attempt, offers evaluation, and returns to the home screen. The model menu always includes an
+  automatic new-environment option. Internal framework labels are hidden.
+- work AGENT [TASK] is the advanced direct-selection form of the dashboard. TASK may be a menu
+  number, capsule ID, or short alias such as inverse, multipole, or mpc.
 - papers list/show/validate inspects paper manifests and shared material.
 - capsules list/show/validate addresses a capsule through paper ID, capsule ID, and version.
 - suites list/show/validate inspects suites.
@@ -14,7 +15,7 @@ The installed command is paper_repro_eval.
   are pristine, and automatically writes a launch sheet.
 - launch-sheet SUITE [-a AGENT...] regenerates the exact workspace/run/prompt handoff for the
   latest pristine attempts.
-- path RUN_ID, enter RUN_ID, and status [RUN_ID] support native-assistant work.
+- path RUN_ID, enter RUN_ID, and status [RUN_ID] support advanced manual and scripted work.
 - runs list lists every attempt.
 - seal, reproduce, and verify expose lifecycle stages.
 - evaluate RUN_ID performs all three stages and creates a review packet.

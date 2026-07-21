@@ -32,6 +32,11 @@ The lifecycle is:
 7. Build a static packet for human scientific and educational review.
 8. Compare runs in portable Markdown, HTML, CSV, and JSON reports; optionally curate a learning copy.
 
+For ordinary human use, the bare `paper_repro_eval` dashboard drives preparation and navigation:
+it lists existing model environments plus a create-new choice, prepares a new model's suite when
+selected, shows the chosen model's task states, opens only that workspace, and offers evaluation
+when the workspace shell closes. The individual lifecycle commands remain the automation API.
+
 Candidate failure and evaluator failure are separate states. Verification code is capsule-specific;
 copying, lifecycle, scoring, provenance, isolation, and review presentation remain framework code.
 No database, frontend framework, cloud SDK, or mandatory model judge is involved.

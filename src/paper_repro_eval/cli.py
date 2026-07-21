@@ -140,17 +140,18 @@ def _choose_agent(repository: Repository, suite_id: str, agent: str | None) -> s
     )
     if not labels:
         return str(typer.prompt("Name this model or condition", default="grok"))
-    if len(labels) == 1:
-        console.print(f"[cyan]Using model:[/cyan] {labels[0]}")
-        return labels[0]
 
     table = Table("#", "Model / condition")
     for index, label in enumerate(labels, 1):
         table.add_row(str(index), label)
+    new_index = len(labels) + 1
+    table.add_row(str(new_index), "[green]+ Create a new model / condition[/green]")
     console.print(table)
-    choice = str(typer.prompt("Choose a model number, or enter a new label"))
+    choice = str(typer.prompt("Choose a model", default="1"))
     if choice.isdigit() and 1 <= int(choice) <= len(labels):
         return labels[int(choice) - 1]
+    if choice == str(new_index):
+        return str(typer.prompt("Name the new model or condition"))
     return choice
 
 
@@ -398,14 +399,17 @@ def work(
 def dashboard(context: typer.Context) -> None:
     """Open the human dashboard when no advanced subcommand is supplied."""
     if context.invoked_subcommand is None:
-        work(
-            agent=None,
-            task=None,
-            suite=DEFAULT_WORK_SUITE,
-            timeout=300,
-            image="python:3.12-slim",
-            shell="zsh",
-        )
+        while True:
+            work(
+                agent=None,
+                task=None,
+                suite=DEFAULT_WORK_SUITE,
+                timeout=300,
+                image="python:3.12-slim",
+                shell="zsh",
+            )
+            if not typer.confirm("Return to the dashboard?", default=True):
+                break
 
 
 @app.command()

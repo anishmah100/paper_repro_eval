@@ -36,7 +36,7 @@ def test_bare_command_opens_the_human_dashboard(monkeypatch) -> None:
         "paper_repro_eval.cli.work",
         lambda **kwargs: opened.append(kwargs["agent"] is None),
     )
-    result = CliRunner().invoke(app, [])
+    result = CliRunner().invoke(app, [], input="n\n")
     assert result.exit_code == 0, result.stdout
     assert opened == [True]
 
@@ -90,3 +90,42 @@ def test_work_prepares_selects_and_recovers_without_run_ids(
     assert "Choose a task number" not in resumed.stdout
     assert opened == [opened[0], opened[0]]
     assert len(list_runs(repository)) == 1
+
+
+def test_work_without_a_label_creates_then_navigates_existing_model(
+    repository: Repository, monkeypatch
+) -> None:
+    monkeypatch.chdir(repository.root)
+    opened: list[str] = []
+    monkeypatch.setattr(
+        "paper_repro_eval.cli._open_workspace",
+        lambda run, image, shell: opened.append(run.record.agent),
+    )
+    runner = CliRunner()
+    created = runner.invoke(
+        app,
+        ["work", "--suite", "synthetic-smoke"],
+        input="grok\n1\nn\n",
+    )
+    assert created.exit_code == 0, created.stdout
+    assert "Name this model or condition" in created.stdout
+    assert opened == ["grok"]
+
+    existing = runner.invoke(
+        app,
+        ["work", "--suite", "synthetic-smoke"],
+        input="1\n1\nn\n",
+    )
+    assert existing.exit_code == 0, existing.stdout
+    assert "Create a new model / condition" in existing.stdout
+    assert opened == ["grok", "grok"]
+
+    second_model = runner.invoke(
+        app,
+        ["work", "--suite", "synthetic-smoke"],
+        input="2\nfable\n1\nn\n",
+    )
+    assert second_model.exit_code == 0, second_model.stdout
+    assert "First use for fable" in second_model.stdout
+    assert opened == ["grok", "grok", "fable"]
+    assert {run.record.agent for run in list_runs(repository)} == {"grok", "fable"}
